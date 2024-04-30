@@ -84,6 +84,22 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('LoanedItems')" :active="request()->routeIs('LoanedItems')">
+                {{ __('Loaned Items') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
+                {{ __('My Cart') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('Favourites')" :active="request()->routeIs('Favourites')">
+                {{ __('Favourites') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
+                {{ __('Info') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
