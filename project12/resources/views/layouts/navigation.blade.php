@@ -13,7 +13,21 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Home') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('LoanedItems')" :active="request()->routeIs('LoanedItems')">
+                        {{ __('Loaned Items') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
+                        {{ __('My cart') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('Favourites')" :active="request()->routeIs('Favourites')">
+                        {{ __('Favourites') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
+                        {{ __('Info') }}
                     </x-nav-link>
                 </div>
             </div>
