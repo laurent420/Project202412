@@ -8,10 +8,14 @@
     <div class="container mx-auto">
         <h2 class="text-2xl font-semibold mb-4">Items</h2>
 
-        <!-- Button to Add Item -->
-        <div class="mb-4">
-            <a href="{{ route('additem') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</a>
-        </div>
+<!-- Button to Add Item (Visible only to admins) -->
+@if (auth()->check() && auth()->user()->isAdmin())
+    <div class="mb-4">
+        <a href="{{ route('additem') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</a>
+    </div>
+@endif
+
+
 
         <!-- Items Grid -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
