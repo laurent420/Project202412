@@ -23,12 +23,12 @@
 <p>Thursday: 10:00 - 12:00 & 12:30 - 17:00</p>
 <p>Friday: 10:00 - 12:00 & 12:30 - 17:00</p>
 
-Lending service
-Monday: 10:00 - 12:00 & 12:30 - 17:00
-Tuesday: closed
-Wednesday: closed
-Thursday: closed
-Friday: 10:00 - 12:00 - 12:30 - 17:00
+<h3>Lending service</h3>
+<p>Monday: 10:00 - 12:00 & 12:30 - 17:00</p>
+<p>Tuesday: closed</p>
+<p>Wednesday: closed</p>
+<p>Thursday: closed</p>
+<p>Friday: 10:00 - 12:00 - 12:30 - 17:00</p>
 
 Contact
 gwendo@ehb.be
