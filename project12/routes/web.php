@@ -1,6 +1,8 @@
 <?php
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AddItemController;
+use App\Http\Controllers\FavoriteController;
+
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -31,9 +33,10 @@ Route::get('/MyCart', function () {
     return view('MyCart');
 })->middleware(['auth', 'verified'])->name('MyCart');
 
-Route::get('/Favourites', function () {
-    return view('Favourites');
-})->middleware(['auth', 'verified'])->name('Favourites');
+Route::post('/favourites/add', [FavoriteController::class, 'add'])->name('favourites.add');
+Route::get('/favourites', [FavoriteController::class, 'index'])->name('favourites');
+
+
 
 Route::get('/Info', function () {
     return view('Info');

@@ -26,7 +26,9 @@
                                             <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
                                             <img src="{{ asset('storage/' . $item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2"> <!-- Adjusted image path -->
                                             <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2">Add to Bag</button>
-                                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2">Add to Favorite</button>
+                                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
+    data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
+    onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
 
                                             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
                                             
@@ -86,6 +88,7 @@
             </div>
         </div>
 </x-app-layout>
+
 
 
 

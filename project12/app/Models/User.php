@@ -52,6 +52,11 @@ public function isAdmin()
 {
     return $this->is_admin == 1;
 }
+// In your User model
+public function favorites()
+{
+    return $this->hasMany(Favorite::class);
+}
 
 
 }

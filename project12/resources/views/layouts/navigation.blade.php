@@ -23,9 +23,10 @@
                     <x-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
                         {{ __('My cart') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('Favourites')" :active="request()->routeIs('Favourites')">
-                        {{ __('Favourites') }}
-                    </x-nav-link>
+                    <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+    {{ __('Favourites') }}
+</x-nav-link>
+
                     <x-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
                         {{ __('Info') }}
                     </x-nav-link>
@@ -93,9 +94,9 @@
                 {{ __('My Cart') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('Favourites')" :active="request()->routeIs('Favourites')">
-                {{ __('Favourites') }}
-            </x-responsive-nav-link>
+            <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+    {{ __('Favourites') }}
+</x-nav-link>
 
             <x-responsive-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
                 {{ __('Info') }}
