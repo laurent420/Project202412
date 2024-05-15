@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'id',
     ];
 
     /**
@@ -52,6 +53,17 @@ public function isAdmin()
 {
     return $this->is_admin == 1;
 }
+
+// public function isBanned()
+// {
+//     return $this->is_banned == 1;
+// }
+
+// public function isNotBanned()
+// {
+//     return $this->is_banned == 0;
+// }
+
 
 
 }
