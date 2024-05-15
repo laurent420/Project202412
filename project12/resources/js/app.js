@@ -28,17 +28,13 @@ $(document).ready(function() {
         });
         
     });
-});
-
-$(document).ready(function() {
     // Add item to cart
     $(document).on('click', '.add-to-cart', function(e) {
         e.preventDefault();
         var itemId = $(this).data('item-id');
-        var url = $(this).data('url');
         $.ajax({
-            url: url,
-            type: "POST",
+            url: '/cart-items',
+            type: 'POST',
             data: {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
                 "item_id": itemId
@@ -56,10 +52,9 @@ $(document).ready(function() {
     $(document).on('click', '.remove-from-cart', function(e) {
         e.preventDefault();
         var cartItemId = $(this).data('cart-item-id');
-        var url = '/cart-items/' + cartItemId;
         $.ajax({
-            url: url,
-            type: "DELETE",
+            url: '/cart-items/' + cartItemId,
+            type: 'DELETE',
             data: {
                 "_token": $('meta[name="csrf-token"]').attr('content')
             },

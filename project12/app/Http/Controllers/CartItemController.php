@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +6,14 @@ use App\Models\CartItem;
 
 class CartItemController extends Controller
 {
+    public function index()
+    {
+        $userId = auth()->id();
+        $cartItems = CartItem::where('user_id', $userId)->with('item')->get();
+
+        return view('mycart', compact('cartItems'));
+    }
+
     public function store(Request $request)
     {
         $userId = auth()->id();
@@ -33,13 +40,7 @@ class CartItemController extends Controller
 
         return response()->json(['message' => 'Item removed from cart']);
     }
-
-    public function index()
-    {
-        $userId = auth()->id();
-        $cartItems = CartItem::where('user_id', $userId)->with('item')->get();
-
-        return view('mycart', compact('cartItems'));
-    }
 }
+
+
 
