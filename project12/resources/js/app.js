@@ -29,3 +29,48 @@ $(document).ready(function() {
         
     });
 });
+
+$(document).ready(function() {
+    // Add item to cart
+    $(document).on('click', '.add-to-cart', function(e) {
+        e.preventDefault();
+        var itemId = $(this).data('item-id');
+        var url = $(this).data('url');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                "item_id": itemId
+            },
+            success: function(response) {
+                alert(response.message);
+            },
+            error: function(xhr, status, error) {
+                alert('Error adding item to cart');
+            }
+        });
+    });
+
+    // Remove item from cart
+    $(document).on('click', '.remove-from-cart', function(e) {
+        e.preventDefault();
+        var cartItemId = $(this).data('cart-item-id');
+        var url = '/cart-items/' + cartItemId;
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            data: {
+                "_token": $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                alert(response.message);
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert('Error removing item from cart');
+            }
+        });
+    });
+});
+
