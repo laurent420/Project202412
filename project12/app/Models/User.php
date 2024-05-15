@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'id',
     ];
 
     /**
@@ -61,6 +62,17 @@ public function cartItems()
     {
         return $this->hasMany(CartItem::class);
     }
+
+// public function isBanned()
+// {
+//     return $this->is_banned == 1;
+// }
+
+// public function isNotBanned()
+// {
+//     return $this->is_banned == 0;
+// }
+
 
 
 }

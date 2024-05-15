@@ -30,6 +30,13 @@
                     <x-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
                         {{ __('Info') }}
                     </x-nav-link>
+
+                    @if (auth()->check() && auth()->user()->isAdmin())
+                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
+
                 </div>
             </div>
 
@@ -101,6 +108,11 @@
             <x-responsive-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
                 {{ __('Info') }}
             </x-responsive-nav-link>
+            @if (auth()->check() && auth()->user()->isAdmin())
+                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
