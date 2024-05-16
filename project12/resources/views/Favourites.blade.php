@@ -20,9 +20,11 @@
                         <div class="w-full flex-none text-sm font-medium text-slate-700 mt-2">
                             amount left:  
                         </div>
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2">Add to Bag</button>
+                        <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 float-right">Unfavourite</button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 float-right">Add to Bag</button>
                         <!-- Display other item details -->
                     </div>
+
                 </div>     
          
             </div>
