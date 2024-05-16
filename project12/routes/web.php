@@ -4,6 +4,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\BookingController;
+
 
 
 
@@ -46,6 +48,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::post('/favourites/add', [FavoriteController::class, 'add'])->name('favourites.add');
 Route::get('/favourites', [FavoriteController::class, 'index'])->name('favourites');
+
+Route::get('/api/unavailable-dates/{item}', [BookingController::class, 'getUnavailableDates'])->name('api.unavailable-dates');
+Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
 
 
 
