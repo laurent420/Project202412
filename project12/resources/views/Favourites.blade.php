@@ -32,4 +32,51 @@
         @endif
         @endforeach
     </div>
+
+    <!-- Add the JavaScript code for handling the button click -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all buttons with the class 'add-to-cart'
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            
+            // Loop through each button and add a click event listener
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent the default action
+                    const itemId = this.getAttribute('data-item-id');
+                    const url = this.getAttribute('data-url');
+                    
+                    // Disable the button to prevent multiple clicks
+                    this.disabled = true;
+
+                    // Create a form data object
+                    const formData = new FormData();
+                    formData.append('item_id', itemId);
+                    
+                    // Make an AJAX request to add the item to the cart
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.disabled = false; // Re-enable the button
+                        if (data.success) {
+                            alert('Failed to add item to bag.');
+                        } else {
+                            alert('Item added to bag successfully!');
+                        }
+                    })
+                    .catch(error => {
+                        this.disabled = false; // Re-enable the button
+                        console.error('Error:', error);
+                        alert('An error occurred.');
+                    });
+                });
+            });
+        });
+    </script>
 </x-app-layout>
