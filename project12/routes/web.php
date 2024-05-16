@@ -53,6 +53,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
 
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/search', 'SearchController@search');
 
 require __DIR__.'/auth.php';
