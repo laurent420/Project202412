@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 
+Route::get('/search', 'SearchController@search')->name('search');
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,7 +23,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard', [ItemController::class, 'index'])->name('dashboard');
 
-Route::get('/search', 'SearchController@search')->name('search');
 
 
 
