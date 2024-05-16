@@ -21,7 +21,7 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
-                        {{ __('My cart') }}
+                        {{ __('My Bag') }}
                     </x-nav-link>
                     <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
     {{ __('Favourites') }}
@@ -91,7 +91,7 @@
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
-                {{ __('My Cart') }}
+                {{ __('My Bag') }}
             </x-responsive-nav-link>
 
             <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
