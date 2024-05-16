@@ -34,6 +34,11 @@ class FavoriteController extends Controller
     }
     
     
+    public function remove(Favorite $favorite)
+    {
+        $favorite->delete();
 
+        return response()->json(['message' => 'Item removed from favorites successfully!']);
+    }
 }
 

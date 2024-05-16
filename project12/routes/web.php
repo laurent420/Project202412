@@ -45,6 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::post('/favourites/add', [FavoriteController::class, 'add'])->name('favourites.add');
 Route::get('/favourites', [FavoriteController::class, 'index'])->name('favourites');
+Route::delete('/favourites/{favorite}', [FavoriteController::class, 'remove'])->name('favourites.remove');
+
 
 Route::get('/api/unavailable-dates/{item}', [BookingController::class, 'getUnavailableDates'])->name('api.unavailable-dates');
 Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
