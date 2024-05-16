@@ -1,17 +1,12 @@
-// app/Http/Controllers/SearchController.php
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\YourModel;
-
-class SearchController extends Controller
+public function search(Request $request)
 {
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-        $results = User::search($query)->get();
+    $query = $request->input('query');
 
-        return view('search-results', ['results' => $results, 'query' => $query]);
-    }
+    // Implement your search logic here
+    // For example, if you're searching users:
+    $users = User::where('name', 'LIKE', "%{$query}%")->get();
+
+    // Then return a view with the results
+    return view('search.results', ['users' => $users]);
 }
 

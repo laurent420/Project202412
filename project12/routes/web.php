@@ -20,6 +20,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard', [ItemController::class, 'index'])->name('dashboard');
 
+Route::get('/search', 'SearchController@search')->name('search');
 
 
 
@@ -53,6 +54,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
 
-Route::get('/search', 'SearchController@search');
+
 
 require __DIR__.'/auth.php';
