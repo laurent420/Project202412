@@ -1,15 +1,22 @@
-<!-- resources/views/search-results.blade.php -->
-@extends('layouts.app')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
     <h1>Search Results for "{{ $query }}"</h1>
+    
     @if($results->isEmpty())
         <p>No results found.</p>
     @else
         <ul>
-            @foreach($results as $result)
-                <li>{{ $result->column_name }}</li> <!-- Adjust this line to display the desired attribute -->
+            @foreach ($results as $result)
+                <li>{{ $result->name }} ({{ $result->email }})</li>
             @endforeach
         </ul>
     @endif
-@endsection
+</body>
+</html>
+
