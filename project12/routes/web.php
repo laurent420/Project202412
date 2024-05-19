@@ -14,6 +14,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 
+
+Route::get('profile', 'ProfileController@show')->name('profile');
+
+
 Route::get('/user/{id}', 'UserController@show')->name('user.profile');
 
 
