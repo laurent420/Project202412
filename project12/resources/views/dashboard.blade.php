@@ -7,7 +7,13 @@
 
     <div class="container mx-auto">
         <h2 class="text-2xl font-semibold mb-4">Items</h2>
-
+        
+    <div class="searchbar">
+    <form action="{{ route('search') }}" method="GET">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    </div>
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
                 <a href="{{ route('additem') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</a>
