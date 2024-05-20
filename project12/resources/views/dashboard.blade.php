@@ -7,14 +7,6 @@
 
     <div class="container mx-auto">
         <h2 class="text-2xl font-semibold mb-4">Items</h2>
-        <!-- Example -->
-<div class="searchbar">
-    <form action="{{ route('search') }}" method="GET">
-        <input type="text" name="query" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-</div>
-
 
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
