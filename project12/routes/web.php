@@ -4,13 +4,12 @@ use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\BookingController;
-
-
-
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\RegistrationController;
+
 
 
 Route::get('/', function () {
@@ -63,5 +62,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
+Route::get('/search', 'SearchController@search')->name('search');
+Route::post('/user-agreement', 'RegistrationController@handleUserAgreement')->name('user.agreement');
+
 
 require __DIR__.'/auth.php';
