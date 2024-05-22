@@ -37,11 +37,7 @@
             </div>
         </div>
         @endif
-=======
-                    </div>
-                </div>
-            @endif
->>>>>>> Stashed changes
+
         @endforeach
     </div>
 
