@@ -19,6 +19,7 @@ h3{
 
 .gwendo{
     margin: 5px 10px 10px 15px;
+    color: lightblue;
 }
 .left{
     width: 50%; 
@@ -37,4 +38,8 @@ iframe{
 }
 .maps{
     margin: 0px 10px 10px 15px;
+}
+
+p{
+    color: lightblue;
 }

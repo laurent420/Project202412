@@ -29,7 +29,7 @@
 
                             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
                             
-                            <button id="openCalendarBtn">Selecteer datum</button>
+                            <button id="openCalendarBtn ">Selecteer datum</button>
                             <input type="text" id="selectedDate" name="selected_date">
                             <form action="{{ route('bookings.store') }}" method="POST">
     @csrf
