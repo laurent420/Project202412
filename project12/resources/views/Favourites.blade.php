@@ -25,11 +25,7 @@
                         </div>
 <<<<<<< Updated upstream
                         <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 float-right">Unfavourite</button>
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 float-right add-to-cart"
-                                        data-item-id="{{ $favorite->item->id }}"
-                                        data-url="{{ route('cart-items.store') }}">
-                                    Add to Bag
-                                </button>                        <!-- Display other item details -->
+                                          <!-- Display other item details -->
                     </div>
 
                 </div>     
