@@ -12,7 +12,10 @@ use App\Http\Controllers\BansController;
 
 Route::get('/', function () {
     return view('auth/login');
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 });
 
 
