@@ -11,7 +11,8 @@ use App\Http\Controllers\BansController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
+
 });
 
 

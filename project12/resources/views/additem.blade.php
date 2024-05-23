@@ -38,5 +38,6 @@
                 </div>
             </div>
         </div>
-    </x-app-layout>
-@endif
+    </div>
+</x-app-layout>
+
