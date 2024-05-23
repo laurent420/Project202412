@@ -14,7 +14,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+
 Route::get('profile', 'ProfileController@show')->name('profile');
 
 
@@ -75,6 +75,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
 
-
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 require __DIR__.'/auth.php';
