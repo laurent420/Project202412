@@ -63,15 +63,10 @@ public function cartItems()
         return $this->hasMany(CartItem::class);
     }
 
-// public function isBanned()
-// {
-//     return $this->is_banned == 1;
-// }
-
-// public function isNotBanned()
-// {
-//     return $this->is_banned == 0;
-// }
+public function bans()
+{
+    return $this->hasMany(Bans::class);
+}
 
 
 

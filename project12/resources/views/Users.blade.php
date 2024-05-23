@@ -23,17 +23,23 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h3 class="text-lg font-semibold mb-2">{{ $user->name }}</h3>
                         <p class="text-sm mb-2">ID: {{ $user->id }}</p>
-
+                        <!-- <div class="col-auto">
+                            @can('user-ban')
+                            <a href="#" class="btn btn-succes" data-toggle="modal" data-target="#modal_ban">
+                                <span style="color:white"></span>{{__('New')}}
+                            </a>
+                            @endcan
+                        </div> -->
 
                         @if ( $user->is_banned  == 1)
-                        <form method="POST" action="{{ route('users.unban', $user->id) }}">
+                        <form method="POST" action="{{ route('bans.unban', $user->id) }}">
                                 @csrf
                                 @method('POST')
                                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Unban User</button>
                             </form>
 
                         @else
-                        <form method="POST" action="{{ route('users.ban', $user->id) }}">
+                        <form method="POST" action="{{ route('bans.ban', $user->id) }}">
                                 @csrf
                                 @method('POST')
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Ban User</button>

@@ -3,12 +3,11 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
-
-
-
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\BansController;
 
 
 Route::get('/', function () {
@@ -19,8 +18,10 @@ Route::get('/', function () {
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/Users', [ProfileController::class, 'dasboard'])->middleware(['auth', 'verified'])->name('Users');
-Route::post('/users/{user}/ban', 'App\Http\Controllers\ProfileController@ban')->middleware(['auth', 'verified'])->name('users.ban');
-Route::post('/users/{user}/unban', 'App\Http\Controllers\ProfileController@unban')->middleware(['auth', 'verified'])->name('users.unban');
+Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
+Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
+
+
 
 
 
@@ -44,6 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::post('/favourites/add', [FavoriteController::class, 'add'])->name('favourites.add');
 Route::get('/favourites', [FavoriteController::class, 'index'])->name('favourites');
+
+Route::get('/api/unavailable-dates/{item}', [BookingController::class, 'getUnavailableDates'])->name('api.unavailable-dates');
+Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
 
 
 
