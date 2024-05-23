@@ -4,6 +4,8 @@ use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\LoanedItemsController;
+
 
 
 
@@ -23,6 +25,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard', [ItemController::class, 'index'])->name('dashboard');
 
+Route::get('/loaned-items', [LoanedItemsController::class, 'index'])->middleware(['auth', 'verified'])->name('loaned-items');
 
 
 
@@ -30,9 +33,10 @@ Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 
 
-Route::get('/LoanedItems', function () {
-    return view('LoanedItems');
-})->middleware(['auth', 'verified'])->name('LoanedItems');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
+    // Other routes...
+});
 
 Route::get('/MyCart', function () {
     return view('MyCart');
