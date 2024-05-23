@@ -15,15 +15,14 @@
                                 <h3 class="text-lg font-semibold mb-2">{{ $cartItem->item->name }}</h3>
                                 <p>Quantity: {{ $cartItem->quantity }}</p>
                                 <form action="{{ route('bookings.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="item_id" value="{{ $cartItem->item->id }}">
-    <label for="startDate">Start Date:</label>
-    <input type="date" id="startDate" name="start_date" required>
-    <label for="endDate">End Date:</label>
-    <input type="date" id="endDate" name="end_date" required>
-    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
-</form>
-
+                                    @csrf
+                                    <input type="hidden" name="item_id" value="{{ $cartItem->item->id }}">
+                                    <label for="startDate">Start Date:</label>
+                                    <input type="date" id="startDate" name="start_date" required>
+                                    <label for="endDate">End Date:</label>
+                                    <input type="date" id="endDate" name="end_date" required>
+                                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
+                                </form>
                                 <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mb-2 float-right remove-from-cart" data-cart-item-id="{{ $cartItem->id }}">
                                     Remove from Bag
                                 </button>
