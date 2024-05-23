@@ -1,8 +1,7 @@
-<?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User; // Ensure the User model is imported
 
 class SearchController extends Controller
 {
