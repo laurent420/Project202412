@@ -6,9 +6,8 @@
     </x-slot>
 
     <div class="container mx-auto">
-        <?php
         {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
-        ?>
+        
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
                 <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
@@ -30,30 +29,21 @@
 
                             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
                             
-                            <button id="openCalendarBtn ">Selecteer datum</button>
-                            <input type="text" id="selectedDate" name="selected_date">
+                            <button id="openCalendarBtn">Selecteer datum</button>
+                            <input type="text" id="selectedDate-{{ $item->id }}" name="selected_date">
                             <form action="{{ route('bookings.store') }}" method="POST">
     @csrf
     <input type="hidden" name="item_id" value="{{ $item->id }}">
-    <input type="hidden" name="start_date" id="bookingStartDate">
-    <input type="hidden" name="end_date" id="bookingEndDate">
+    <input type="hidden" name="start_date" id="bookingStartDate-{{ $item->id }}">
+    <input type="hidden" name="end_date" id="bookingEndDate-{{ $item->id }}">
     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
 </form>
 
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
-</x-app-layout>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                             <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const selectedDateInput = document.getElementById('selectedDate');
-    const bookingStartDate = document.getElementById('bookingStartDate');
-    const bookingEndDate = document.getElementById('bookingEndDate');
+    const selectedDateInput = document.getElementById('selectedDate-{{ $item->id }}');
+    const bookingStartDate = document.getElementById('bookingStartDate-{{ $item->id }}');
+    const bookingEndDate = document.getElementById('bookingEndDate-{{ $item->id }}');
 
     selectedDateInput.addEventListener('change', function () {
         const dates = selectedDateInput.value.split('-');
@@ -103,6 +93,11 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeDatePicker();
 });
 </script>
-
-
-
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</x-app-layout>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
