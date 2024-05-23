@@ -1,5 +1,5 @@
 @if (auth()->user()->is_banned == 1)
-    <h1>You are banned</h1>    
+    <h1>You are banned</h1>
 @else
     <x-app-layout>
         <x-slot name="header">
@@ -17,21 +17,35 @@
                     <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
                         @csrf
 
+                        <!-- Brand Name Input -->
+                        <div class="mb-4">
+                            <label for="brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Brand
+                                Name</label>
+                            <input type="text" id="brand" name="brand"
+                                class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
                         <!-- Item Name Input -->
                         <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
-                            <input type="text" id="name" name="name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item
+                                Name</label>
+                            <input type="text" id="name" name="name"
+                                class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
 
                         <!-- Item Picture Input -->
                         <div class="mb-4">
-                            <label for="picture" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Picture</label>
-                            <input type="file" id="picture" name="picture" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <label for="picture" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item
+                                Picture</label>
+                            <input type="file" id="picture" name="picture"
+                                class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
 
                         <!-- Submit Button -->
                         <div class="mt-6">
-                            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Item</button>
+                            <button type="submit"
+                                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add
+                                Item</button>
                         </div>
                     </form>
                 </div>

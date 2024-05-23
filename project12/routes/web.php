@@ -12,12 +12,7 @@ use App\Http\Controllers\BansController;
 
 Route::get('/', function () {
     return view('auth/login');
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 });
-
 
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
