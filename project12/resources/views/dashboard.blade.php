@@ -1,9 +1,12 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@if (auth()->user()->is_banned == 1)
+    <h1>You are banned</h1>
+@else
+    <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+        </x-slot>
 
     <div class="container mx-auto">
         {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
@@ -93,6 +96,16 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeDatePicker();
 });
 </script>
+
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</x-app-layout>
+
                         </div>
                     </div>
                 </div>

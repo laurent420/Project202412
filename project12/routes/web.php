@@ -4,13 +4,10 @@ use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\BookingController;
-
-
-
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\BansController;
 
 
 Route::get('/', function () {
@@ -18,10 +15,13 @@ Route::get('/', function () {
 
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard', [ItemController::class, 'index'])->name('dashboard');
+
+Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/Users', [ProfileController::class, 'dasboard'])->middleware(['auth', 'verified'])->name('Users');
+Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
+Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
+
 
 
 
@@ -56,11 +56,17 @@ Route::get('/Info', function () {
     return view('Info');
 })->middleware(['auth', 'verified'])->name('Info');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+// Route to display users
+Route::get('/Users', [ProfileController::class, 'showUsers'])->middleware(['auth', 'verified'])->name('Users');
+
+Route::get('/UserProfile', function () {
+    return view('userProfile');
+})->middleware(['auth', 'verified'])->name('userProfile');
+
 
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
