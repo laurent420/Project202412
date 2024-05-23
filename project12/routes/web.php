@@ -24,7 +24,8 @@ Route::get('/user/{id}', 'UserController@show')->name('user.profile');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
+
 });
 
 Route::get('/dashboard', function () {

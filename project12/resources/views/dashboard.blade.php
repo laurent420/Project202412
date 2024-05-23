@@ -6,11 +6,12 @@
     </x-slot>
 
     <div class="container mx-auto">
-        <h2 class="text-2xl font-semibold mb-4">Items</h2>
-
+        <?php
+        {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
+        ?>
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
-                <a href="{{ route('additem') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</a>
+                <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
             </div>
         @endif
         
@@ -29,7 +30,7 @@
 
                             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
                             
-                            <button id="openCalendarBtn">Selecteer datum</button>
+                            <button id="openCalendarBtn ">Selecteer datum</button>
                             <input type="text" id="selectedDate" name="selected_date">
                             <form action="{{ route('bookings.store') }}" method="POST">
     @csrf
