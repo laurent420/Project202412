@@ -1,16 +1,11 @@
 <?php
-use App\Http\Controllers\SearchControler;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\BookingController;
-
-
-
-
 use App\Http\Controllers\ProfileController;
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 
