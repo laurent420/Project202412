@@ -1,21 +1,21 @@
+<?php
+
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User; // Ensure the User model is imported
+use App\Models\User; // Assuming User is the model for users
 
 class SearchController extends Controller
 {
-    public function search(Request $request)
+    public function index(Request $request)
     {
-        // Get the search query from the request
         $query = $request->input('query');
 
-        // Perform the search query on the User model
-        $results = User::where('name', 'like', '%' . $query . '%')
-                        ->orWhere('email', 'like', '%' . $query . '%')
-                        ->get();
+        $results = User::where('name', 'LIKE', "%$query%")
+                       ->orWhere('email', 'LIKE', "%$query%")
+                       ->get();
 
-        // Return the search results view with the results
-        return view('search-results', ['results' => $results, 'query' => $query]);
+        return view('search', ['query' => $query, 'results' => $results]);
     }
 }

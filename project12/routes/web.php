@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\SearchController;
+
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
@@ -8,7 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
-
+use App\Http\Controllers\SearchController;
 
 Route::get('profile', 'ProfileController@show')->name('profile');
 
@@ -70,6 +70,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
 
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 require __DIR__.'/auth.php';
