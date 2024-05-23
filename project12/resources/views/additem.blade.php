@@ -1,6 +1,5 @@
-@if ( auth()->user()->is_banned  == 1)
+@if (auth()->user()->is_banned == 1)
     <h1>You are banned</h1>    
-
 @else
     <x-app-layout>
         <x-slot name="header">
@@ -38,6 +37,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</x-app-layout>
-
+    </x-app-layout>
+@endif
