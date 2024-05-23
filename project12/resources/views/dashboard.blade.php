@@ -4,48 +4,50 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Dashboard') }}
+                {{ __('Add Item') }}
             </h2>
         </x-slot>
 
-        <div class="container mx-auto">
-            {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
-            
-            @if (auth()->check() && auth()->user()->isAdmin())
-                <div class="mb-4">
-                    <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
+        <div class="container mx-auto py-8">
+            <div class="max-w-md mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Add Item</h2>
+
+                    <!-- Add Item Form -->
+                    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
+                        @csrf
+
+                        <!-- Item Name Input -->
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
+                            <input type="text" id="name" name="name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
+                        <!-- Serial Number Input -->
+                        <div class="mb-4">
+                            <label for="serialnumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Serial Number</label>
+                            <input type="text" id="serialnumber" name="serialnumber" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
+                        <!-- Item Picture Input -->
+                        <div class="mb-4">
+                            <label for="picture" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Picture</label>
+                            <input type="file" id="picture" name="picture" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-6">
+                            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Item</button>
+                        </div>
+                    </form>
                 </div>
-            @endif
-            
-            @foreach ($items as $item)
-                <div class="py-12">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="p-6 text-gray-900 dark:text-gray-100">
-                                <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
-                                <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
-                                <img src="{{ asset('storage/' . $item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart" data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
-                                <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite" data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}" onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
+            </div>
+        </div>
 
-                                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-                                
-                                <button id="openCalendarBtn">Selecteer datum</button>
-                                <input type="text" id="selectedDate-{{ $item->id }}" name="selected_date">
-                                <form action="{{ route('bookings.store') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                    <input type="hidden" name="start_date" id="bookingStartDate-{{ $item->id }}">
-                                    <input type="hidden" name="end_date" id="bookingEndDate-{{ $item->id }}">
-                                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
-                                </form>
-
-                                <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const selectedDateInput = document.getElementById('selectedDate-{{ $item->id }}');
-    const bookingStartDate = document.getElementById('bookingStartDate-{{ $item->id }}');
-    const bookingEndDate = document.getElementById('bookingEndDate-{{ $item->id }}');
-
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const items = @json($items); // Assuming you have a list of items available
                 items.forEach(item => {
                     const selectedDateInput = document.getElementById('selectedDate-' + item.id);
                     const bookingStartDate = document.getElementById('bookingStartDate-' + item.id);
@@ -57,14 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         bookingEndDate.value = dates[1];
                     });
 
-                    async function fetchUnavailableDates(itemId) {
-                        const response = await fetch(`{{ route('api.unavailable-dates', '') }}/${itemId}`);
+                    async function fetchUnavailableDates() {
+                        const response = await fetch('{{ route('api.unavailable-dates', '') }}/' + item.id);
                         const data = await response.json();
                         return data.dates.map(date => new Date(date));
                     }
 
                     async function initializeDatePicker(itemId) {
-                        const unavailableDates = await fetchUnavailableDates(itemId);
+                        const unavailableDates = await fetchUnavailableDates();
 
                         flatpickr(selectedDateInput, {
                             dateFormat: "d/m/Y",
@@ -74,11 +76,10 @@ document.addEventListener('DOMContentLoaded', function () {
                                     return (date.getDay() !== 1 || unavailableDates.some(d => d.getTime() === date.getTime()));
                                 }
                             ],
-                            onClose: function(selectedDates) {
+                            onClose: function(selectedDates, dateStr, instance) {
                                 if (selectedDates.length > 0) {
                                     const selectedDate = new Date(selectedDates[0]);
                                     const nextFriday = new Date(selectedDate);
-
                                     nextFriday.setDate(selectedDate.getDate() + (5 - selectedDate.getDay() + 7) % 7);
 
                                     const mondayDateStr = formatDate(selectedDate);
@@ -103,4 +104,3 @@ document.addEventListener('DOMContentLoaded', function () {
         </script>
     </x-app-layout>
 @endif
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
