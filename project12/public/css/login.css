@@ -1,0 +1,8 @@
+/* public/css/login.css */
+body {
+    background-image: url('public\images\bg-image.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Additional styling for the login page */
+}
+
