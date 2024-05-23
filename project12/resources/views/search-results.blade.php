@@ -6,17 +6,15 @@
     <title>Search Results</title>
 </head>
 <body>
-    <h1>Search Results for "{{ $query }}"</h1>
-    
-    @if($results->isEmpty())
-        <p>No results found.</p>
-    @else
-        <ul>
-            @foreach ($results as $result)
-                <li>{{ $result->name }} ({{ $result->email }})</li>
-            @endforeach
-        </ul>
-    @endif
+    <h2>Search Results for "{{ $query }}":</h2>
+    <ul>
+        @forelse($results as $result)
+            <li>{{ $result->name }} - {{ $result->email }}</li>
+        @empty
+            <li>No users found</li>
+        @endforelse
+    </ul>
 </body>
 </html>
+
 
