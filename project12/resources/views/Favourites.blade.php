@@ -1,3 +1,29 @@
+<<<<<<< HEAD
+@if ( auth()->user()->is_banned  == 1)
+    <h1>You are banned</h1>    
+
+@else 
+    <x-app-layout>
+            <x-slot name="header">
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('Favorites') }}
+                </h2>
+            </x-slot>
+
+            <div class="container mx-auto">
+                <h2 class="text-2xl font-semibold mb-4">Favorite Items</h2>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach ($favorites as $favorite)
+                    @if ($favorite->item)
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-2">{{ $favorite->item->name }}</h3>
+                            <!-- Display other item details -->
+                        </div>
+                    @endif
+                 @endforeach
+@endif
+=======
 <link rel="stylesheet" href="/css/favourites.css">
 <x-app-layout>
     <x-slot name="header">
@@ -7,25 +33,25 @@
     </x-slot>
 
     <div class="container mx-auto">
-        @foreach ($favorites as $favorite)
-            @if ($favorite->item)
-                <div class="py-12">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="p-6 text-gray-900 dark:text-gray-100">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-lg font-semibold mb-2">{{ $favorite->item->name }}</h3>
-                                    <img src="project12/public/images/heart.png" alt="Heart" class="w-6 h-6 ml-2">
-                                </div>
-                                <div class="w-full flex-none text-sm font-medium text-slate-700 mt-2">
-                                    amount left:
-                                </div>
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2">Add to Bag</button>
-                            </div>
+    @foreach ($favorites as $favorite)
+    @if ($favorite->item)
+        <div class="py-12">
+         
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+   
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                                    
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        <h3 class="text-lg font-semibold mb-2 ">{{ $favorite->item->name }}</h3>
+                        <div class="w-full flex-none text-sm font-medium text-slate-700 mt-2">
+                            amount left:  
                         </div>
-<<<<<<< Updated upstream
                         <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 float-right">Unfavourite</button>
-                                          <!-- Display other item details -->
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 float-right add-to-cart"
+                                        data-item-id="{{ $favorite->item->id }}"
+                                        data-url="{{ route('cart-items.store') }}">
+                                    Add to Bag
+                                </button>                        <!-- Display other item details -->
                     </div>
 
                 </div>     
@@ -33,7 +59,6 @@
             </div>
         </div>
         @endif
-
         @endforeach
     </div>
 
@@ -84,4 +109,4 @@
         });
     </script>
 </x-app-layout>
-
+>>>>>>> e578d589131416473b9de7a517e2b9115aea5dab
