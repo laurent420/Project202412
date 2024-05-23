@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Booking;
 
 class ItemController extends Controller
 {
@@ -26,11 +27,17 @@ class ItemController extends Controller
     ]);
 
     // Handle picture upload
-    if ($request->hasFile('picture')) {
-        // Store the image in the 'item_pictures' directory within 'storage/app'
-        $picturePath = $request->file('picture')->store('item_pictures');
-        $validated['picture'] = $picturePath;
-    }
+   // Handle picture upload
+   if ($request->hasFile('picture')) {
+    // Generate a unique name for the image
+    $imageName = time() . '.' . $request->picture->extension();
+
+    // Move the image to the 'public/images' directory
+    $request->picture->move(public_path('images'), $imageName);
+
+    // Store the image path in the validated data array
+    $validated['picture'] = 'images/' . $imageName;
+}
 
     // Create the item
     Item::create($validated);

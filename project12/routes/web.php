@@ -49,8 +49,15 @@ Route::get('/favourites', [FavoriteController::class, 'index'])->name('favourite
 Route::delete('/favourites/{favorite}', [FavoriteController::class, 'remove'])->name('favourites.remove');
 
 
-Route::get('/api/unavailable-dates/{item}', [BookingController::class, 'getUnavailableDates'])->name('api.unavailable-dates');
 Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+
+// API route to fetch unavailable dates
+Route::get('/api/unavailable-dates/{item}', function ($item) {
+    $item = App\Models\Item::find($item);
+    return response()->json([
+        'dates' => $item->bookings->pluck('start_date')->merge($item->bookings->pluck('end_date'))->toArray()
+    ]);
+})->name('api.unavailable-dates');
 
 
 
