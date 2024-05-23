@@ -8,8 +8,15 @@
             </h2>
         </x-slot>
 
-        <div class="container mx-auto">
-            <h2 class="text-2xl font-semibold mb-4">Items</h2>
+    <div class="container mx-auto">
+        <?php
+        {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
+        ?>
+        @if (auth()->check() && auth()->user()->isAdmin())
+            <div class="mb-4">
+                <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
+            </div>
+        @endif
         
             <div class="searchbar">
                 <form action="{{ route('search') }}" method="GET">
@@ -18,11 +25,17 @@
                 </form>
             </div>
 
-            @if (auth()->check() && auth()->user()->isAdmin())
-                <div class="mb-4">
-                    <a href="{{ route('additem') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add Item</a>
-                </div>
-            @endif
+                            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                            
+                            <button id="openCalendarBtn ">Selecteer datum</button>
+                            <input type="text" id="selectedDate" name="selected_date">
+                            <form action="{{ route('bookings.store') }}" method="POST">
+    @csrf
+    <input type="hidden" name="item_id" value="{{ $item->id }}">
+    <input type="hidden" name="start_date" id="bookingStartDate">
+    <input type="hidden" name="end_date" id="bookingEndDate">
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
+</form>
 
             @foreach ($items as $item)
                 <div class="py-12">
