@@ -6,12 +6,17 @@
     </x-slot>
 
     <div class="container mx-auto">
+        <br>
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
                 <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
             </div>
         @endif
-
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('dashboard') }}" class="mb-4">
+            <input type="text" name="search" placeholder="Search items..." value="{{ request('search') }}" class="px-4 py-2 border rounded">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
+        </form>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($items as $item)
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

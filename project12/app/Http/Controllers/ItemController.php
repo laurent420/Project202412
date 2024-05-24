@@ -8,15 +8,23 @@ use App\Models\Booking;
 
 class ItemController extends Controller
 {
-    // Method to display items
-    public function index()
-    {
-        // Fetch all items from the database
-        $items = Item::all();
-
-        // Pass the items to the view
-        return view('dashboard', compact('items'));
-    }
+      // Method to display items
+      public function index(Request $request)
+      {
+          // Check if there's a search query
+          $search = $request->input('search');
+  
+          if ($search) {
+              // Search items by name or first letter
+              $items = Item::where('name', 'LIKE', $search . '%')->get();
+          } else {
+              // Fetch all items if there's no search query
+              $items = Item::all();
+          }
+  
+          // Pass the items to the view
+          return view('dashboard', compact('items'));
+      }
 
     public function store(Request $request)
 {
