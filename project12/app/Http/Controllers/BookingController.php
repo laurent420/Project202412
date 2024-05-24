@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
 use App\Models\CartItem;
+use App\Models\Item;
 
 class BookingController extends Controller
 {
@@ -36,12 +37,23 @@ class BookingController extends Controller
             return response()->json(['error' => 'These dates are already booked.'], 422);
         }
 
+        // Fetch the item
+        $item = Item::find($request->item_id);
+
+        if ($item->quantity < 1) {
+            return response()->json(['error' => 'This item is out of stock.'], 422);
+        }
+
+        // Create the booking
         $booking = Booking::create([
-            'user_id' => Auth::id(), // Ensure user_id is set correctly
+            'user_id' => Auth::id(),
             'item_id' => $request->item_id,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
+
+        // Decrement the item quantity
+        $item->decrement('quantity');
 
         // Remove the item from the cart
         CartItem::where('user_id', Auth::id())
@@ -51,4 +63,3 @@ class BookingController extends Controller
         return response()->json(['message' => 'Item booked successfully.'], 200);
     }
 }
-

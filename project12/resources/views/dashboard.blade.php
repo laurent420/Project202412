@@ -18,11 +18,13 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
                         <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
-                        <img src="{{ asset('images/' . $item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart" data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
-                        <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
-                            data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
-                            onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
+                        <img src="{{ asset($item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
+                        @if ($item->quantity > 0)
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart" data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
+                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite" data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}" onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
+                        @else
+                            <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
+                        @endif
                     </div>
                 </div>
             @endforeach
