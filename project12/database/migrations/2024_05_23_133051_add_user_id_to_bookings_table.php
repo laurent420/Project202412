@@ -9,15 +9,20 @@ class AddUserIdToBookingsTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            if (!Schema::hasColumn('bookings', 'user_id')) {
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            }
         });
     }
 
     public function down()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+            if (Schema::hasColumn('bookings', 'user_id')) {
+                $table->dropForeign(['user_id']);
+                $table->dropColumn('user_id');
+            }
         });
     }
 }
+

@@ -24,6 +24,8 @@ class ItemController extends Controller
     $validated = $request->validate([
         'name' => 'required',
         'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming picture is an image file
+        'quantity' => 'required|integer|min:0',
+
     ]);
 
     // Handle picture upload
