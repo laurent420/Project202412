@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="container mx-auto">
+        
         <?php
-        {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
         ?>
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
@@ -24,9 +24,11 @@
                             <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
                             <img src="{{ asset('storage/' . $item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
                             <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart" data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
-                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
+                            <button class="bg-yellow-500  text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
     data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
-    onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
+    onclick="addToFavorite({{ $item->id }})">
+        <img src="images/def.png" alt="Add to Favorite" class="h-6 w-6 m-auto">
+    </button>
 
                             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
                             
@@ -103,6 +105,3 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeDatePicker();
 });
 </script>
-
-
-
