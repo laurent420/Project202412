@@ -8,14 +8,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\BansController;
+use App\Models\Favorite;
 
 
 Route::get('/', function () {
     return view('auth/login');
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 });
 
 
@@ -73,5 +70,7 @@ Route::get('/UserProfile', function () {
 
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
+
+Route::delete('/favourites/{id}', [FavoriteController::class, 'destroy'])->name('favourites.destroy');
 
 require __DIR__.'/auth.php';
