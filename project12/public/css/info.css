@@ -1,0 +1,45 @@
+.tussentitel{
+    background-color: #f0f0f0; 
+    padding: 10px; 
+    border: 2px solid #ccc; 
+    display: inline-block;
+    color: rgb(0, 0, 0);
+    margin: 10px;
+}
+h3{
+    color: red;
+    margin: 10px;
+}
+.media{
+    margin: 5px 10px 10px 15px;
+}
+.lending{
+    margin: 5px 10px 10px 15px;
+}
+
+.gwendo{
+    margin: 5px 10px 10px 15px;
+    color: lightblue;
+}
+.left{
+    width: 50%; 
+    float: left;
+}
+
+.right{
+    width: 50%;
+    float: left;
+}
+iframe{
+    background-color: #ccc; 
+    padding: 10px; 
+    border: 2px solid #c8c7c7; 
+    display: inline-block;
+}
+.maps{
+    margin: 0px 10px 10px 15px;
+}
+
+p{
+    color: lightblue;
+}

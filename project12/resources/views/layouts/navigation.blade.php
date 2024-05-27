@@ -1,4 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -21,14 +23,22 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
-                        {{ __('My cart') }}
+                        {{ __('My Bag') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('Favourites')" :active="request()->routeIs('Favourites')">
-                        {{ __('Favourites') }}
-                    </x-nav-link>
+                    <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+    {{ __('Favourites') }}
+</x-nav-link>
+
                     <x-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
                         {{ __('Info') }}
                     </x-nav-link>
+
+                    @if (auth()->check() && auth()->user()->isAdmin())
+                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
+
                 </div>
             </div>
 
@@ -90,16 +100,21 @@
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
-                {{ __('My Cart') }}
+                {{ __('My Bag') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('Favourites')" :active="request()->routeIs('Favourites')">
-                {{ __('Favourites') }}
-            </x-responsive-nav-link>
+            <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+    {{ __('Favourites') }}
+</x-nav-link>
 
             <x-responsive-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
                 {{ __('Info') }}
             </x-responsive-nav-link>
+            @if (auth()->check() && auth()->user()->isAdmin())
+                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
