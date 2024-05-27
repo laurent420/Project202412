@@ -55,6 +55,13 @@ class ItemController extends Controller
     // Redirect back with success message
     return redirect()->back()->with('success', 'Item added successfully.');
 }
+public function destroy(Item $item)
+    {
+        $item->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Item removed from dashboard.');
+    }
+
 
     
 }

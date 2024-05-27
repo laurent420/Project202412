@@ -90,4 +90,6 @@ Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDa
 
 Route::delete('/favourites/{id}', [FavoriteController::class, 'destroy'])->name('favourites.destroy');
 
+Route::delete('/items/{item}', [ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->name('items.destroy');
+
 require __DIR__.'/auth.php';

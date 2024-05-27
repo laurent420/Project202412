@@ -30,9 +30,16 @@
                         @else
                             <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
                         @endif
+                        @if (auth()->check() && auth()->user()->isAdmin() && $item->quantity == 0)
+                            <form method="POST" action="{{ route('items.destroy', $item) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Remove from Dashboard</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-</x-app-layout>
+</x-app-layout>9
