@@ -1,28 +1,3 @@
-<<<<<<< Updated upstream
-@if (auth()->user()->is_banned == 1)
-    <h1>You are banned</h1>
-@else
-    <x-app-layout>
-        <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Add Item') }}
-            </h2>
-        </x-slot>
-
-        <div class="container mx-auto py-8">
-            <div class="max-w-md mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-                <div class="p-6">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Add Item</h2>
-
-                    <!-- Add Item Form -->
-                    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
-                        @csrf
-
-                        <!-- Item Name Input -->
-                        <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
-                            <input type="text" id="name" name="name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-=======
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -72,7 +47,6 @@
                                 <input type="hidden" name="end_date" id="bookingEndDate-{{ $item->id }}">
                                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
                             </form>
->>>>>>> Stashed changes
                         </div>
 
                         <!-- Serial Number Input -->
@@ -94,18 +68,6 @@
                     </form>
                 </div>
             </div>
-<<<<<<< Updated upstream
-        </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const items = @json($items); // Assuming you have a list of items available
-                items.forEach(item => {
-                    const selectedDateInput = document.getElementById('selectedDate-' + item.id);
-                    const bookingStartDate = document.getElementById('bookingStartDate-' + item.id);
-                    const bookingEndDate = document.getElementById('bookingEndDate-' + item.id);
-=======
         @endforeach
     </div>
 </x-app-layout>
@@ -114,19 +76,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const items = @json($items);
->>>>>>> Stashed changes
 
     items.forEach(item => {
         const selectedDateInput = document.getElementById('selectedDate-' + item.id);
         const bookingStartDate = document.getElementById('bookingStartDate-' + item.id);
         const bookingEndDate = document.getElementById('bookingEndDate-' + item.id);
 
-<<<<<<< Updated upstream
-                    async function fetchUnavailableDates() {
-                        const response = await fetch('{{ route('api.unavailable-dates', '') }}/' + item.id);
-                        const data = await response.json();
-                        return data.dates.map(date => new Date(date));
-=======
         selectedDateInput.addEventListener('change', function () {
             const dates = selectedDateInput.value.split('-');
             bookingStartDate.value = dates[0];
@@ -148,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 disable: [
                     function(date) {
                         return (date.getDay() !== 1 || unavailableDates.some(d => d.getTime() === date.getTime()));
->>>>>>> Stashed changes
                     }
                 ],
                 onClose: function(selectedDates, dateStr, instance) {
@@ -157,37 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         const nextFriday = new Date(selectedDate);
                         nextFriday.setDate(selectedDate.getDate() + (5 - selectedDate.getDay() + 7) % 7);
 
-<<<<<<< Updated upstream
-                    async function initializeDatePicker(itemId) {
-                        const unavailableDates = await fetchUnavailableDates();
-
-                        flatpickr(selectedDateInput, {
-                            dateFormat: "d/m/Y",
-                            enableTime: false,
-                            disable: [
-                                function(date) {
-                                    return (date.getDay() !== 1 || unavailableDates.some(d => d.getTime() === date.getTime()));
-                                }
-                            ],
-                            onClose: function(selectedDates, dateStr, instance) {
-                                if (selectedDates.length > 0) {
-                                    const selectedDate = new Date(selectedDates[0]);
-                                    const nextFriday = new Date(selectedDate);
-                                    nextFriday.setDate(selectedDate.getDate() + (5 - selectedDate.getDay() + 7) % 7);
-
-                                    const mondayDateStr = formatDate(selectedDate);
-                                    const fridayDateStr = formatDate(nextFriday);
-
-                                    selectedDateInput.value = `${mondayDateStr}-${fridayDateStr}`;
-                                }
-                            }
-                        });
-=======
                         const mondayDateStr = formatDate(selectedDate);
                         const fridayDateStr = formatDate(nextFriday);
 
                         selectedDateInput.value = `${mondayDateStr}-${fridayDateStr}`;
->>>>>>> Stashed changes
                     }
                 }
             });
