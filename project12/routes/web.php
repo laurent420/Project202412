@@ -8,8 +8,14 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\BansController;
-use App\Models\Favorite;
+use App\Http\Controllers\SearchController;
+
+Route::get('profile', 'ProfileController@show')->name('profile');
+
+
+Route::get('/user/{id}', 'UserController@show')->name('user.profile');
+
+
 
 
 Route::get('/', function () {
@@ -72,6 +78,10 @@ Route::get('/UserProfile', function () {
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
 
+<<<<<<< HEAD
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+=======
 Route::delete('/favourites/{id}', [FavoriteController::class, 'destroy'])->name('favourites.destroy');
+>>>>>>> main
 
 require __DIR__.'/auth.php';
