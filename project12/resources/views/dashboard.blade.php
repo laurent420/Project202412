@@ -1,5 +1,5 @@
 @if (auth()->user()->is_banned == 1)
-    <h1>You are banned</h1>
+    <h1>You are banned</h1>    
 @else
     <x-app-layout>
         <x-slot name="header">
@@ -9,8 +9,6 @@
         </x-slot>
 
         <div class="container mx-auto">
-            {{-- <h2 class="text-2xl font-semibold mb-4">Items</h2> --}}
-            
             @if (auth()->check() && auth()->user()->isAdmin())
                 <div class="mb-4">
                     <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
@@ -30,7 +28,7 @@
 
                                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
                                 
-                                <button id="openCalendarBtn">Selecteer datum</button>
+                                <button id="openCalendarBtn-{{ $item->id }}">Selecteer datum</button>
                                 <input type="text" id="selectedDate-{{ $item->id }}" name="selected_date">
                                 <form action="{{ route('bookings.store') }}" method="POST">
                                     @csrf
@@ -93,8 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     initializeDatePicker();
 });
-</script>
-
+                                </script>
                             </div>
                         </div>
                     </div>
