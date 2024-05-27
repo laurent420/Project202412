@@ -80,15 +80,19 @@ class ProfileController extends Controller
     public function ban(User $user)
     {
         $user->update(['is_banned' => 1]);
-    
+        $user->update(['beginBan' => date_add(now())]);
+        $user->update(['endBan' => data_set()]);
         return redirect()->back()->with('success', 'User has been banned successfully.');
     }
     
     public function unban(User $user)
     {
         $user->update(['is_banned' => 0]);
-    
+        $user->update(['beginBan' => NULL]);
+        $user->update(['endBan' => NULL]);
         return redirect()->back()->with('success', 'User has been unbanned successfully.');
     }
-    
+
+
+
 }
