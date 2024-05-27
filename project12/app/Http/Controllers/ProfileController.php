@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +50,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return redirect()->route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -58,8 +58,8 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        $request->validate([
+            'password' => ['required', 'password'],
         ]);
 
         $user = $request->user();
@@ -71,6 +71,40 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return redirect('/');
     }
+
+    /**
+     * Show all users.
+     */
+    public function showUsers(Request $request): View
+    {
+        // $users = User::all();
+                $users = User::all();
+
+        return view('Users', ['users' => $users]);
+    }
+
+    public function dashboard(Request $request): View
+    {
+        // $users = User::all();
+                $users = User::all();
+
+        return view('Users', ['users' => $users]);
+    }
+
+    public function ban(User $user)
+    {
+        $user->update(['is_banned' => 1]);
+    
+        return redirect()->back()->with('success', 'User has been banned successfully.');
+    }
+    
+    public function unban(User $user)
+    {
+        $user->update(['is_banned' => 0]);
+    
+        return redirect()->back()->with('success', 'User has been unbanned successfully.');
+    }
+    
 }
