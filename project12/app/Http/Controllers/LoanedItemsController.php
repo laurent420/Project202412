@@ -5,27 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
+use App\Models\Item;
+
 
 class LoanedItemsController extends Controller
 {
     
-         // Method to display items
-      public function index(Request $request)
-      {
-          // Check if there's a search query
-          $search = $request->input('search');
-  
-          if ($search) {
-              // Search items by name or first letter
-              $items = Item::where('name', 'LIKE', $search . '%')->get();
-          } else {
-              // Fetch all items if there's no search query
-              $items = Item::all();
-          }
-  
-          // Pass the items to the view
-          return view('dashboard', compact('items'));
-      }
+    public function index(Request $request)
+    {
+        // Check if there's a search query
+        $search = $request->input('search');
+    
+        if ($search) {
+            // Search loaned items by name or first letter
+            $loanedItems = Booking::whereHas('item', function ($query) use ($search) {
+                $query->where('name', 'LIKE', $search . '%');
+            })->with('item')->get();
+        } else {
+            // Fetch all loaned items if there's no search query
+            $loanedItems = Booking::with('item')->get();
+        }
+    
+        // Pass the loaned items to the view
+        return view('loaneditems', compact('loanedItems'));
+    }
+    
 
     public function store(Request $request)
 {

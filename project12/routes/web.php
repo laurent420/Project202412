@@ -30,7 +30,6 @@ Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ba
 Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
 
 
-Route::get('/loaned-items', [LoanedItemsController::class, 'index'])->middleware(['auth', 'verified'])->name('loaned-items');
 
 
 
@@ -38,18 +37,20 @@ Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
-    // Other routes...
-});
+
 // Item routes
 Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 
 // Loaned items and cart routes
-Route::get('/LoanedItems', function () {
-    return view('LoanedItems');
-})->middleware(['auth', 'verified'])->name('LoanedItems');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
+    // Other routes...
+});
+
+
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/MyCart', [CartItemController::class, 'index'])->name('MyCart');
