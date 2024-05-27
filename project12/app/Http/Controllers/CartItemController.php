@@ -31,14 +31,14 @@ class CartItemController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Item added to cart']);
+        return response()->json(['message' => 'Item added to bag']);
     }
 
     public function destroy(CartItem $cartItem)
     {
         $cartItem->delete();
 
-        return response()->json(['message' => 'Item removed from cart']);
+        return response()->json(['message' => 'Item removed from bag']);
     }
 }
 

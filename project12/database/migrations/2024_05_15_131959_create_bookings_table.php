@@ -14,6 +14,7 @@ class CreateBookingsTable extends Migration
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
+            $table->integer('qauntity');
             $table->timestamps();
         });
     }

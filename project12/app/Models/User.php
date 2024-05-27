@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +19,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'id',
+        'is_banned',
+        'beginBan',
+        'endBan',
     ];
 
     /**
@@ -33,34 +36,46 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Determine if the user is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->is_admin == 1;
     }
-    // User.php
 
-// User.php
+    /**
+     * Get the user's favorite items.
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 
-public function isAdmin()
-{
-    return $this->is_admin == 1;
-}
-// In your User model
-public function favorites()
-{
-    return $this->hasMany(Favorite::class);
-}
-public function cartItems()
+    /**
+     * Get the user's cart items.
+     */
+    public function cartItems()
     {
         return $this->hasMany(CartItem::class);
     }
 
-
+    /**
+     * Get the user's bans.
+     */
+    public function bans()
+    {
+        return $this->hasMany(Ban::class);
+    }
 }
