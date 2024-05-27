@@ -78,10 +78,6 @@ Route::get('/UserProfile', function () {
 Route::get('/calender', [CalendarController::class, 'index'])->name('calender');
 Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
 
-<<<<<<< HEAD
 Route::get('/search', [SearchController::class, 'index'])->name('search');
-=======
-Route::delete('/favourites/{id}', [FavoriteController::class, 'destroy'])->name('favourites.destroy');
->>>>>>> main
 
 require __DIR__.'/auth.php';
