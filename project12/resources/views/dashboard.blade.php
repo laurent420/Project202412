@@ -16,7 +16,10 @@
                 <select name="category" onchange="this.form.submit()" class="px-4 py-2 border rounded">
                     <option value="">All Categories</option>
                     <option value="Electronics">Electronics</option>
-                    <!-- Voeg hier extra categorieën toe indien nodig -->
+                    <option value="Cameras">Cameras</option>
+                    <option value="Printers">Printers</option>
+                    <option value="Screens">Screens</option>
+
                 </select>
             </form>
         </div>

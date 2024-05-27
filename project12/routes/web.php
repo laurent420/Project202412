@@ -29,6 +29,10 @@ Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ba
 Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
 
 
+Route::post('/bans/ban/{user}', [BanController::class, 'ban'])->name('bans.ban');
+Route::post('/bans/unban/{user}', [BanController::class, 'unban'])->name('bans.unban');
+
+
 Route::get('/loaned-items', [LoanedItemsController::class, 'index'])->middleware(['auth', 'verified'])->name('loaned-items');
 
 

@@ -2,41 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Models\Bans;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\Request;
 
-class BansController extends Controller
+class BanController extends Controller
 {
-    public function ban(User $users)
-{
-    // Create a new ban record associated with the user
-    $ban = $users->bans()->create([
-        'is_banned' => true,
-        'begin_ban' => now(),
-        'end_ban' => now()->addMonths(3),
-        'description' => 'User banned.'
-    ]);
+    public function ban(User $user)
+    {
+        $user->is_banned = 1;
+        $user->save();
 
-    // Redirect back with success message
-    return redirect()->back()->with('success', 'User has been banned successfully.');
-}
+        return redirect()->back()->with('status', 'User banned successfully.');
+    }
 
-public function unban(User $users)
-{
-    // Create a new ban record associated with the user
-    $ban = $users->bans()->create([
-        'is_banned' => false,
-        'begin_ban' => null,
-        'end_ban' => null,
-        'description' => null
-    ]);
+    public function unban(User $user)
+    {
+        $user->is_banned = 0;
+        $user->save();
 
-    // Redirect back with success message
-    return redirect()->back()->with('success', 'User has been banned successfully.');
-}
-
+        return redirect()->back()->with('status', 'User unbanned successfully.');
+    }
 }
