@@ -4,6 +4,12 @@ use App\Http\Controllers\AddItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\LoanedItemsController;
+
+
+
+
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
@@ -23,6 +29,7 @@ Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ba
 Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
 
 
+Route::get('/loaned-items', [LoanedItemsController::class, 'index'])->middleware(['auth', 'verified'])->name('loaned-items');
 
 
 
@@ -30,9 +37,10 @@ Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 
 
-Route::get('/LoanedItems', function () {
-    return view('LoanedItems');
-})->middleware(['auth', 'verified'])->name('LoanedItems');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
+    // Other routes...
+});
 
 Route::get('/MyCart', function () {
     return view('MyCart');
@@ -46,9 +54,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::post('/favourites/add', [FavoriteController::class, 'add'])->name('favourites.add');
 Route::get('/favourites', [FavoriteController::class, 'index'])->name('favourites');
+Route::delete('/favourites/{favorite}', [FavoriteController::class, 'remove'])->name('favourites.remove');
 
-Route::get('/api/unavailable-dates/{item}', [BookingController::class, 'getUnavailableDates'])->name('api.unavailable-dates');
+
 Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+
+// API route to fetch unavailable dates
+Route::get('/api/unavailable-dates/{item}', function ($item) {
+    $item = App\Models\Item::find($item);
+    return response()->json([
+        'dates' => $item->bookings->pluck('start_date')->merge($item->bookings->pluck('end_date'))->toArray()
+    ]);
+})->name('api.unavailable-dates');
 
 
 

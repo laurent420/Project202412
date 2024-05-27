@@ -3,51 +3,63 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
+use App\Models\CartItem;
 use App\Models\Item;
 
 class BookingController extends Controller
 {
-    public function getUnavailableDates(Item $item)
+    public function store(Request $request)
     {
-        $bookings = Booking::where('item_id', $item->id)->get(['start_date', 'end_date']);
-        $dates = [];
+        $validator = \Validator::make($request->all(), [
+            'item_id' => 'required|exists:items,id',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
 
-        foreach ($bookings as $booking) {
-            $period = new \DatePeriod(
-                new \DateTime($booking->start_date),
-                new \DateInterval('P1D'),
-                (new \DateTime($booking->end_date))->modify('+1 day')
-            );
-
-            foreach ($period as $date) {
-                $dates[] = $date->format('Y-m-d');
-            }
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        return response()->json(['dates' => $dates]);
+        // Check for overlapping bookings
+        $existingBooking = Booking::where('item_id', $request->item_id)
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('start_date', [$request->start_date, $request->end_date])
+                    ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('start_date', '<=', $request->start_date)
+                            ->where('end_date', '>=', $request->end_date);
+                    });
+            })->exists();
+
+        if ($existingBooking) {
+            return response()->json(['error' => 'These dates are already booked.'], 422);
+        }
+
+        // Fetch the item
+        $item = Item::find($request->item_id);
+
+        if ($item->quantity < 1) {
+            return response()->json(['error' => 'This item is out of stock.'], 422);
+        }
+
+        // Create the booking
+        $booking = Booking::create([
+            'user_id' => Auth::id(),
+            'item_id' => $request->item_id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        // Decrement the item quantity
+        $item->decrement('quantity');
+
+        // Remove the item from the cart
+        CartItem::where('user_id', Auth::id())
+            ->where('item_id', $request->item_id)
+            ->delete();
+
+        return response()->json(['message' => 'Item booked successfully.'], 200);
     }
-
-    public function store(Request $request)
-{
-    $validated = $request->validate([
-        'item_id' => 'required|exists:items,id',
-        'start_date' => 'required|date_format:d/m/Y',
-        'end_date' => 'required|date_format:d/m/Y',
-    ]);
-
-    $startDate = \Carbon\Carbon::createFromFormat('d/m/Y', $validated['start_date']);
-    $endDate = \Carbon\Carbon::createFromFormat('d/m/Y', $validated['end_date']);
-
-    Booking::create([
-        'user_id' => auth()->id(),
-        'item_id' => $validated['item_id'],
-        'start_date' => $startDate,
-        'end_date' => $endDate,
-    ]);
-
-    return redirect()->back()->with('success', 'Item booked successfully.');
 }
-
-}
-
