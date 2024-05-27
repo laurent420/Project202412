@@ -13,29 +13,29 @@
                 <div class="p-6">
                     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Add Item</h2>
 
-                    <!-- Add Item Form -->
-                    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
-                        @csrf
+                <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
+                    @csrf
 
-                        <!-- Item Name Input -->
-                        <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
-                            <input type="text" id="name" name="name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        </div>
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
 
-                        <!-- Item Picture Input -->
-                        <div class="mb-4">
-                            <label for="picture" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Picture</label>
-                            <input type="file" id="picture" name="picture" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        </div>
+                    <div class="mb-4">
+                        <label for="picture" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Picture</label>
+                        <input type="file" id="picture" name="picture" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
 
-                        <!-- Submit Button -->
-                        <div class="mt-6">
-                            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Item</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="mb-4">
+                        <label for="quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
+
+                    <div class="mt-6">
+                        <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Item</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </x-app-layout>
-@endif
+    </div>
+</x-app-layout>
