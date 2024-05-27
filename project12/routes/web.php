@@ -7,13 +7,12 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\RegistrationController;
-
+use App\Http\Controllers\BansController;
+use App\Models\Favorite;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 
@@ -74,5 +73,7 @@ Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDa
 Route::get('/search', 'SearchController@search')->name('search');
 Route::post('/user-agreement', 'RegistrationController@handleUserAgreement')->name('user.agreement');
 
+
+Route::delete('/favourites/{id}', [FavoriteController::class, 'destroy'])->name('favourites.destroy');
 
 require __DIR__.'/auth.php';

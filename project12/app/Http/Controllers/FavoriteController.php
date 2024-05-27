@@ -32,6 +32,23 @@ class FavoriteController extends Controller
         $favorites = auth()->user()->favorites; // Assuming you have a relationship set up correctly
         return view('favourites', compact('favorites'));
     }
+
+    public function destroy($id)
+    {
+        $userId = auth()->id(); // Get the current user's ID
+
+        // Find the favorite record
+        $favorite = Favorite::where('user_id', $userId)->where('item_id', $id)->first();
+
+        if ($favorite) {
+            // If the favorite record exists, delete it
+            $favorite->delete();
+            return response()->json(['message' => 'Item removed from favorites.']);
+        } else {
+            // If the favorite record does not exist, return an error message
+            return response()->json(['message' => 'Item not found in favorites.'], 404);
+        }
+    }
     
     
 

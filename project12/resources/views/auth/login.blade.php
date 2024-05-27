@@ -1,4 +1,11 @@
 <x-guest-layout>
+    <style>
+        body {
+            background-image: url("{{ asset('images/Background.jpg') }}" );
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
