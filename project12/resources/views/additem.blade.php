@@ -32,10 +32,10 @@
                             <input type="file" id="picture" name="picture" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         </div>
 
-                        <div class="mb-4">
+                        <!-- <div class="mb-4">
                             <label for="quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
                             <input type="number" id="quantity" name="quantity" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
-                        </div>
+                        </div> -->
 
                         <div class="mt-6">
                             <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Item</button>

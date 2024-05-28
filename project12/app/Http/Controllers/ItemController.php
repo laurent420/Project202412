@@ -33,14 +33,16 @@ class ItemController extends Controller
               'name' => 'required|string|max:255',            
               'brand' => 'required|string|max:255',
               'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming picture is an image file
-              'quantity' => 'required|integer|min:0',
+            //   'quantity' => 'required|integer|min:0',
           ]);
           
           // Create the item without the serial number first
           $item = new Item();
           $item->name = $request->name;
           $item->brand = $request->brand;
-          $item->quantity = $request->quantity; // Set the quantity
+          $item->status = false;
+
+        //   $item->quantity = $request->quantity; // Set the quantity
           $item->save();
           
           // Generate the serial number based on the item ID
