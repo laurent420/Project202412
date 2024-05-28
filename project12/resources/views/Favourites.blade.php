@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
 
-    <div class="container mx-auto">
+    
     @foreach ($favorites as $favorite)
         @if ($favorite->item)
             <div class="py-12">

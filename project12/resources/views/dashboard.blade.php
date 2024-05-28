@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="container mx-auto">
+
         <br>
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="mb-4">
@@ -42,4 +42,4 @@
             @endforeach
         </div>
     </div>
-</x-app-layout>9
+</x-app-layout>

@@ -7,7 +7,6 @@
                 {{ __('Users') }}
             </h2>
         </x-slot>
-
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @foreach ($users as $user)
                 <div class="py-12">
@@ -17,19 +16,23 @@
                             <p class="text-sm mb-2">ID: {{ $user->id }}</p>
 
                             @if (auth()->user()->isAdmin())
-
-                                
-                                @if ($user->is_banned == 1)
-                                    <form method="POST" action="{{ route('users.unban', $user->id) }}">
+                                <div class="flex space-x-4">
+                                    @if ($user->is_banned == 1)
+                                        <form method="POST" action="{{ route('users.unban', $user->id) }}">
+                                            @csrf
+                                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Unban User</button>
+                                        </form>
+                                    @else
+                                        <form method="POST" action="{{ route('users.ban', $user->id) }}">
+                                            @csrf
+                                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Ban User</button>
+                                        </form>
+                                    @endif
+                                    <form method="POST" action="{{ route('users.returned', $user->id) }}">
                                         @csrf
-                                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Unban User</button>
+                                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Returned</button>
                                     </form>
-                                @else
-                                    <form method="POST" action="{{ route('users.ban', $user->id) }}">
-                                        @csrf
-                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Ban User</button>
-                                    </form>
-                                @endif
+                                </div>
                             @endif
                         </div>
                     </div>

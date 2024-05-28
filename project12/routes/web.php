@@ -10,6 +10,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\BansController;
 use App\Models\Favorite;
+use App\Http\Controllers\Auth\RegisteredUserController;
+
 
 // Authentication routes
 Route::get('/', function () {
@@ -96,5 +98,9 @@ Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDa
 Route::delete('/favourites/{id}', [FavoriteController::class, 'destroy'])->name('favourites.destroy');
 
 Route::delete('/items/{item}', [ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->name('items.destroy');
+
+
+
+Route::post('/users/{user}/returned', [RegisteredUserController::class, 'returned'])->name('users.returned');
 
 require __DIR__.'/auth.php';
