@@ -83,5 +83,67 @@
                 @endforeach
             </div>
         </div>
+    
     </x-app-layout>
 @endif
+<script> document.addEventListener('DOMContentLoaded', function () {
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-item-id');
+            const url = this.getAttribute('data-url');
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ item_id: itemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Failed to add item to bag.');
+                } else {
+                    alert('Item added to bag!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while adding the item to the bag.');
+            });
+        });
+    });
+
+    // Add to Favorite
+    document.querySelectorAll('.add-to-favorite').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-item-id');
+            const url = this.getAttribute('data-url');
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ item_id: itemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Failed to add item to favorite.');
+                } else {
+                    alert('Item added to favorite!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while adding the item to favorite.');
+            });
+        });
+    });
+});
+
+</script>
