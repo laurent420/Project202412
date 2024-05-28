@@ -61,38 +61,19 @@ class ProfileController extends Controller
     /**
      * Show all users.
      */
-    public function showUsers(Request $request): View
-    {
-        // $users = User::all();
-                $users = User::all();
 
-        return view('Users', ['users' => $users]);
-    }
-
-    public function dashboard(Request $request): View
-    {
-        // $users = User::all();
-                $users = User::all();
-
-        return view('Users', ['users' => $users]);
-    }
-
-    public function ban(User $user)
-    {
-        $user->update(['is_banned' => 1]);
-        $user->update(['beginBan' => date_add(now())]);
-        $user->update(['endBan' => data_set()]);
-        return redirect()->back()->with('success', 'User has been banned successfully.');
-    }
-    
-    public function unban(User $user)
-    {
-        $user->update(['is_banned' => 0]);
-        $user->update(['beginBan' => NULL]);
-        $user->update(['endBan' => NULL]);
-        return redirect()->back()->with('success', 'User has been unbanned successfully.');
-    }
-
-
+     public function showUsers(Request $request): View
+     {
+         $users = User::all();
+     
+         return view('Users', compact('users'));
+     }
+     
+     public function banUserOverlay(Request $request): View
+     {
+         $users = User::all();
+     
+         return view('modal', compact('users'));
+     }      
 
 }
