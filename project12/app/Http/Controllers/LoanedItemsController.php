@@ -15,4 +15,6 @@ class LoanedItemsController extends Controller
 
         return view('loaneditems', compact('loanedItems'));
     }
+
+    
 }
