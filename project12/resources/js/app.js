@@ -1,4 +1,6 @@
 import './bootstrap';
+require('bootstrap');
+
 
 // Import any required libraries
 import $ from 'jquery';
@@ -66,6 +68,23 @@ $(document).ready(function() {
                 alert('Error removing item from cart');
             }
         });
-    });
+    }); 
 });
 
+// voor de ban modal
+// Add this inside resources/js/app.js if you're using Laravel Mix
+document.addEventListener('DOMContentLoaded', function () {
+    // When the modal is displayed, focus on the input field
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#textInput').focus();
+    });
+
+    // Handle button click event
+    $('#saveBtn').on('click', function () {
+        var textValue = $('#textInput').val();
+        // Do something with the input value, for example, send it to the server
+        console.log('Text Input:', textValue);
+        // Close the modal
+        $('#myModal').modal('hide');
+    });
+});
