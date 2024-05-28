@@ -45,7 +45,7 @@ class ItemController extends Controller
     // Move the image to the 'public/images' directory
     $request->picture->move(public_path('images'), $imageName);
 
-    // Store the image path in the validated data array
+    // Store the image path in the validated data array 
     $validated['picture'] = 'images/' . $imageName;
 }
 
