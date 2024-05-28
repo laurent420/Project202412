@@ -26,6 +26,7 @@ class LoanedItemsController extends Controller
             $loanedItems = Booking::with('item')->get();
         }
     
+
         // Pass the loaned items to the view
         return view('loaneditems', compact('loanedItems'));
     }

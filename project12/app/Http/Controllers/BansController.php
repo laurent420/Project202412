@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class BanController extends Controller
 {
@@ -15,8 +14,8 @@ class BanController extends Controller
         // Create a new ban record associated with the user
         $user->bans()->create([
             'is_banned' => true,
-            'begin_ban' => now(),
-            'end_ban' => now()->addMonths(3),
+            'begin_ban' => Carbon::now(),
+            'end_ban' => Carbon::now()->addMonths(3),
             'description' => 'User banned.'
         ]);
 
@@ -29,8 +28,8 @@ class BanController extends Controller
 
     public function unban(User $user)
     {
-        // Remove the ban record associated with the user
-        $user->bans()->delete(); // Assuming there is only one ban record per user
+        // Remove the latest ban record associated with the user
+        $user->bans()->latest()->first()->delete();
 
         // Update the user's is_banned attribute
         $user->update(['is_banned' => false]);
