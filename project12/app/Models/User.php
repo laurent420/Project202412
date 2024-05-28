@@ -68,6 +68,12 @@ public function bans()
     return $this->hasMany(Bans::class);
 }
 
-
+/**
+     * Get the loans for the user.
+     */
+public function loans()
+{
+    return $this->hasMany(Loan::class);
+}
 
 }

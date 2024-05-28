@@ -20,5 +20,12 @@ class Item extends Model
     {
         return $this->hasMany(Booking::class);
     }
+   
+    use HasFactory;
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
 }
 
