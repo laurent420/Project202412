@@ -1,9 +1,9 @@
 <?php
-
+ 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+ 
 return new class extends Migration
 {
     /**
@@ -17,21 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-<<<<<<< Updated upstream
+            $table->tinyInteger('is_banned')->default(0);
             $table->tinyInteger('is_admin')->default(0);
-=======
-            $table->integer('is_admin');
->>>>>>> Stashed changes
             $table->rememberToken();
             $table->timestamps();
         });
-
+ 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
-
+ 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -41,7 +38,7 @@ return new class extends Migration
             $table->integer('last_activity')->index();
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      */
@@ -53,3 +50,4 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
+ 
