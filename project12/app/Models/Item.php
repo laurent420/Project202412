@@ -1,24 +1,16 @@
 <?php
+    namespace App\Models;
 
-namespace App\Models;
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use Illuminate\Database\Eloquent\Model;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Item extends Model
-{
-    use HasFactory;
-
-    protected $fillable = ['name', 'picture', 'quantity']; // Include quantity
-
-    public function cartItems()
+    class Item extends Model
     {
-        return $this->hasMany(CartItem::class);
+        protected $fillable = ['name', 'brand', 'picture', 'item_group_id', 'status', 'serialnumber'];
+    
+        public function itemGroup()
+        {
+            return $this->belongsTo(ItemGroup::class);
+        }
     }
-
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
-}
-
+    

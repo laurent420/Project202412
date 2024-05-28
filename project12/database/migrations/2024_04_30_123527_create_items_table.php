@@ -6,29 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateItemsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->string('serialnumber')->nullable();
-            $table->string('brand');
+            $table->id(); 
             $table->string('name');
+            $table->string('brand');
             $table->string('picture')->nullable();
+            $table->foreignId('item_group_id')->constrained(); 
+            $table->boolean('status')->default(false);
+            $table->string('serialnumber')->nullable();
             $table->timestamps();
-            $table->boolean('status');
         });
+        
     }
+    
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('items');
