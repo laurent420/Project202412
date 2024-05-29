@@ -67,5 +67,10 @@ class ItemController extends Controller
           // Redirect back with success message
           return redirect()->back()->with('success', 'Item added successfully.');
       }
-      
+      public function show($id)
+    {
+        $item = Item::findOrFail($id);
+        return view('item.show', compact('item'));
+    }
+
 }

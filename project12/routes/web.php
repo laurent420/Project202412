@@ -13,6 +13,8 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\Route;
 
+Route::get('/item/{id}', [ItemController::class, 'show'])->name('item.show');
+
 // Authentication routes
 Route::get('/', function () {
     return view('auth/login');
@@ -20,6 +22,7 @@ Route::get('/', function () {
 
 // Dashboard route
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // Profile routes
 Route::middleware(['auth', 'verified'])->group(function () {
