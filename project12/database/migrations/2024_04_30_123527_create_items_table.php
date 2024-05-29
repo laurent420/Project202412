@@ -20,6 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->string('picture')->nullable();
             $table->timestamps();
+            $table->boolean('status');
         });
     }
 

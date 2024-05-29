@@ -40,9 +40,81 @@
         <h3 class="font-semibold mb-2 text-center text-4xl">Nothing in your bag</h3>
     </div>
 
-                @endif
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle booking form submission
+    document.querySelectorAll('form.booking-form').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
 
-            </div>
-        </div>
-    </x-app-layout>
-@endif
+            // Fetch the form data
+            const formData = new FormData(form);
+
+            // Send a POST request to the server
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.errors) {
+                    alert(Object.values(data.errors).join('\n'));
+                } else {
+                    alert('Item booked successfully.');
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    });
+
+    // Handle removing item from cart
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const cartItemId = this.getAttribute('data-cart-item-id');
+            const url = `/cart-items/${cartItemId}`;
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message) {
+                    window.location.reload();
+                } else {
+                    alert('Failed to remove item from bag.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    });
+});
+</script>
+
+
+
+</x-app-layout>

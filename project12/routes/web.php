@@ -13,6 +13,8 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\Route;
 
+Route::get('/item/{id}', [ItemController::class, 'show'])->name('item.show');
+    
 // Authentication routes
 Route::get('/', function () {
     return view('auth/login');
@@ -20,6 +22,7 @@ Route::get('/', function () {
 
 // Dashboard route
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // Profile routes
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,14 +36,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
 Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
 
+
+Route::post('/bans/ban/{user}', [BanController::class, 'ban'])->name('bans.ban');
+Route::post('/bans/unban/{user}', [BanController::class, 'unban'])->name('bans.unban');
+
+
+
+
+
 Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
+    // Other routes...
+});
 // Item routes
 Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 // Loaned items and cart routes
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
     // Other routes...
@@ -100,6 +115,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
+Route::get('/search', 'SearchController@search')->name('search');
+Route::post('/user-agreement', 'RegistrationController@handleUserAgreement')->name('user.agreement');
+
 });
 
 Route::delete('/items/{item}', [ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->name('items.destroy');
