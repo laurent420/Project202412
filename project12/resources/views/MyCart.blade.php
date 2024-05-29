@@ -35,18 +35,14 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.querySelector('form[action="{{ route('bookings.store') }}"]');
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle booking form submission
+    document.querySelectorAll('form.booking-form').forEach(form => {
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission
 
             // Fetch the form data
             const formData = new FormData(form);
-
-            // Log form data for debugging
-            for (let [key, value] of formData.entries()) { 
-                console.log(key, value);
-            }
 
             // Send a POST request to the server
             fetch(form.action, {
@@ -58,21 +54,16 @@
                 }
             })
             .then(response => {
-                console.log('Response status:', response.status); // Log response status for debugging
                 if (!response.ok) {
                     return response.json().then(err => { throw err; });
                 }
                 return response.json();
             })
             .then(data => {
-                console.log('Response data:', data); // Log response data for debugging
-                // Check if the server returned any errors
-                if (data.hasOwnProperty('errors')) {
-                    // Display the error message(s)
-                    const errorMessage = data.errors.error || 'An error occurred.';
-                    alert(errorMessage);
+                if (data.errors) {
+                    alert(Object.values(data.errors).join('\n'));
                 } else {
-                    // If successful, reload the page or perform any other action
+                    alert('Item booked successfully.');
                     window.location.reload();
                 }
             })
@@ -82,7 +73,42 @@
             });
         });
     });
+
+    // Handle removing item from cart
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const cartItemId = this.getAttribute('data-cart-item-id');
+            const url = `/cart-items/${cartItemId}`;
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message) {
+                    window.location.reload();
+                } else {
+                    alert('Failed to remove item from bag.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    });
+});
 </script>
+
 
 
 </x-app-layout>

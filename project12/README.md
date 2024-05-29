@@ -69,3 +69,8 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## web.php problemen met een route
 https://stackoverflow.com/questions/63807930/error-target-class-controller-does-not-exist-when-using-laravel-8
+
+
+https://blackbox.ai/share/ba8abb08-5892-4fad-92a4-837dd135c3b1
+https://blackbox.ai/share/3d42b751-06b0-4fba-9ad4-09859176b9ec
+https://blackbox.ai/share/5b117061-0b97-45a1-b30e-8f7d054eed52
