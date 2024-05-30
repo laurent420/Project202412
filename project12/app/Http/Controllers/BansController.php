@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Ban;
+use App\Models\Bans;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfileUpdateRequest;
 
-class BanController extends Controller
+
+class BansController extends Controller
 {
     public function ban(User $user, Request $request)
     {
@@ -42,3 +45,4 @@ class BanController extends Controller
         }
     }
 }
+

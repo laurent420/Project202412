@@ -13,25 +13,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .card {
-            margin-bottom: 20px;
-        }
-
-        .modal-header {
-            background-color: #343a40;
-            color: white;
-        }
-
-        .modal-footer button {
-            margin-right: 10px;
-        }
-    </style>
 </head>
 
 <body>
