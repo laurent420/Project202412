@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
-use App\Models\Booking;
+use App\Models\ItemGroup;
+
 
 class ItemController extends Controller
 {
@@ -16,63 +17,80 @@ class ItemController extends Controller
 
         if ($search) {
             // Search items by name or first letter
-            $items = Item::where('name', 'LIKE', $search . '%')->get();
+            $item_groups = ItemGroup::where('name', 'LIKE', $search . '%')->get();
         } else {
             // Fetch all items if there's no search query
             $items = Item::all();
+            $item_groups = ItemGroup::all();
         }
 
         // Pass the items to the view
-        return view('dashboard', compact('items'));
+        return view('dashboard', compact('items', 'item_groups'));
     }
 
     public function store(Request $request)
     {
-        // Validate the request data
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',            
-            'brand' => 'required|string|max:255',
-            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming picture is an image file
-            // 'quantity' => 'required|integer|min:0',
-        ]);
-
-        // Create the item without the serial number first
-        $item = new Item();
-        $item->name = $request->name;
-        $item->brand = $request->brand;
-        $item->status = false;
-
-        // $item->quantity = $request->quantity; // Set the quantity
-        $item->save();
-
-        // Generate the serial number based on the item ID
-        $serialnumber = strtoupper(substr($item->brand, 0, 2) . substr($item->name, 0, 2) . $item->id);
-
-        // Update the item with the generated serial number
-        $item->serialnumber = $serialnumber;
-
-        // Handle picture upload
-        if ($request->hasFile('picture')) {
-            // Generate a unique name for the image
-            $imageName = time() . '.' . $request->picture->extension();
-
-            // Move the image to the 'public/images' directory
-            $request->picture->move(public_path('images'), $imageName);
-
-            // Store the image path in the validated data array
-            $validated['picture'] = 'images/' . $imageName;
+        try {
+            // Validate the request data
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',            
+                'brand' => 'required|string|max:255',
+                'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                // 'item_group_id' => 'required|integer|exists:item_groups,id',
+            ]);
+    
+            // Handle picture upload
+            if ($request->hasFile('picture')) {
+                // Generate a unique name for the image
+                $imageName = time() . '.' . $request->picture->extension();
+            
+                // Move the image to the 'public/images' directory
+                $request->picture->move(public_path('images'), $imageName);
+    
+                // Store the image path in the validated data array
+                $validated['picture'] = 'images/' . $imageName;
+            }
+    
+            // Create or find the item group
+            $itemGroup = ItemGroup::firstOrCreate(
+                [
+                    'name' => $validated['name'],
+                    'brand' => $validated['brand']
+                ],
+                [
+                    'quantity' => 0
+                ]
+            );
+    
+            // Create the item
+            $item = new Item($validated);
+            $item->item_group_id = $itemGroup->id;
+            $item->status = false;
+    
+            // Save the item to get the ID
+            $item->save();
+    
+            // Generate the serial number based on the item ID
+            $serialnumber = strtoupper(substr($item->brand, 0, 2) . substr($item->name, 0, 2) . $item->id);
+            $item->serialnumber = $serialnumber;
+    
+            // Update the item with the serial number
+            $item->save();
+    
+            // Increment the item group's quantity
+            $itemGroup->increment('quantity');
+    
+            // Redirect back to the same page
+            return redirect()->back();
+        } catch (\Exception $e) {
+            // Return the error message in case of an exception
+            return response()->json([
+                'message' => 'An error occurred',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-
-        // Save the changes to the item
-        $item->update($validated);
-
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Item added successfully.');
     }
-
-    public function show($id)
-    {
-        $item = Item::findOrFail($id);
-        return response()->json(['success' => true, 'item' => $item]);
-    }
+    
 }
+
+

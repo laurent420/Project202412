@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'brand',
+        'picture',
+        'serialnumber',
+        'status',
+        'item_group_id'
+    ];
 
-    protected $fillable = ['name', 'picture', 'quantity']; // Include quantity
-
-    public function cartItems()
+    public function itemGroup()
     {
-        return $this->hasMany(CartItem::class);
-    }
-
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
+        return $this->belongsTo(ItemGroup::class);
     }
 }
 
