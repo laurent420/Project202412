@@ -1,43 +1,41 @@
-@if ( auth()->user()->is_banned  == 1)
-    <h1>You are banned</h1>    
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('My Bag') }}
+        </h2>
+    </x-slot>
 
-@else
-    <x-app-layout>
-        <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('My Bag') }}
-            </h2>
-        </x-slot>
-    
-
-
-            
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                @php
-                    $bagIsEmpty = true;
-                @endphp
-
-                @foreach ($cartItems as $cartItem)
-                    @if ($cartItem->item)
-                        @php
-                            $bagIsEmpty = false;
-                        @endphp
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <h3 class="text-lg font-semibold mb-2">{{ $cartItem->item->name }}</h3>
-                            <p>Quantity: {{ $cartItem->quantity }}</p>
-                            <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mb-2 remove-from-cart" data-cart-item-id="{{ $cartItem->id }}">
-                                Remove from Bag
-                            </button>
+    <div class="container mx-auto">
+        @if(count($cartItems) > 0)
+            @foreach ($cartItems as $cartItem)
+                @if ($cartItem->item)
+                    <div class="py-12">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                                <div class="p-6 text-gray-900 dark:text-gray-100">
+                                    <h3 class="text-lg font-semibold mb-2">{{ $cartItem->item->name }}</h3>
+                                    <p>Quantity: {{ $cartItem->quantity }}</p>
+                                    <form action="{{ route('bookings.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="item_id" value="{{ $cartItem->item->id }}">
+                                        <label for="startDate">Start Date:</label>
+                                        <input type="date" id="startDate" name="start_date" required>
+                                        <label for="endDate">End Date:</label>
+                                        <input type="date" id="endDate" name="end_date" required>
+                                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Book Item</button>
+                                    </form>
+                                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mb-2 float-right remove-from-cart" data-cart-item-id="{{ $cartItem->id }}">
+                                        Remove from Bag
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    @endif
-                @endforeach
-
-                
-                @if ($bagIsEmpty)
-            
-                <div class="flex items-center justify-center h-full">
-        <h3 class="font-semibold mb-2 text-center text-4xl">Nothing in your bag</h3>
+                    </div>
+                @endif
+            @endforeach
+        @else
+            <p class="text-center text-4xl">No items in your bag.</p>
+        @endif
     </div>
 
     <script>
@@ -118,3 +116,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 </x-app-layout>
+
+

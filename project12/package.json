@@ -16,11 +16,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-<<<<<<< Updated upstream
         "flatpickr": "^4.6.13",
         "jquery": "^3.7.1"
-=======
-        "flatpickr": "^4.6.13"
->>>>>>> Stashed changes
     }
 }
