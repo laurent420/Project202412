@@ -6,10 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Ban;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\ProfileUpdateRequest;
 
-class BansController extends Controller
+class BanController extends Controller
 {
     public function ban(User $user, Request $request)
     {
