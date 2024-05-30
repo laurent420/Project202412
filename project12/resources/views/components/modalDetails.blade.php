@@ -1,16 +1,39 @@
-<!-- resources/views/components/modal.blade.php -->
-<div class="modal fade" id="modalDetails{{ $items->id }}" tabindex="-1" role="dialog" aria-labelledby="modalDetailsLabel{{ $items->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+
+<div class="modal fade" id="detailModal{{ $group->id }}" tabindex="-1" role="dialog"
+    aria-labelledby="detailModalLabel{{ $group->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-        @foreach ($item_groups as $item)
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
-                                @include('components.modalDetails', ['item_groups' => $items])
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel"{{ $group->id }}-{{ $group->brand }}-{{ $group->name }} Details</h5>
+                <button type=" button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    @foreach ($group->items as $item)
+                        <li>{{ $item->name }} -
+                            {{$item->serialnumber}} -
+                            @if ($item->status == 0)
+                                Availible
+                            @else
+                                Not Availible
+                            @endif
+                            <form method="POST" action="{{ route('dashboard.remove', ['id' => $item->id]) }}">
+                                @csrf
+                                @method('POST')
+                                <div class="modal-footer">
+                                    <button type="submit"
+                                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                                </div>
                             </form>
-                        </div>
-                    </div>
-                @endforeach
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

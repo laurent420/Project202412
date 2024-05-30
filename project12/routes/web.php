@@ -13,8 +13,6 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', [ItemController::class, 'dashboard'])->name('dashboard');
-
 // Authentication routes
 Route::get('/', function () {
     return view('auth/login');
@@ -24,6 +22,20 @@ Route::get('/', function () {
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/dashboard/{id}/remove', [ItemController::class, 'remove'])->name('dashboard.remove');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/LoanedItems', [ItemController::class, 'loandedItemsAdmin'])->name('LoanedItems');
+});
+
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
+    Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
+});
 
 // Profile routes
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,18 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
-    // Other routes...
-});
 // Item routes
 Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
-// Loaned items and cart routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
-    // Other routes...
-});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
@@ -94,7 +97,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
-Route::get('/search', 'SearchController@search')->name('search');
+Route::get('/search', [ItemController::class,'index'])->name('search');
+Route::get('/searchLoanedItems', [ItemController::class,'loandedItemsAdmin'])->name('searchLoanedItems');
+
 Route::post('/user-agreement', 'RegistrationController@handleUserAgreement')->name('user.agreement');
 
 });
