@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
+
 // Profile routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Users', [ProfileController::class, 'showUsers'])->name('Users');
@@ -31,17 +32,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-// User ban/unban routes
-Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
-Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
-
-Route::post('/bans/ban/{user}', [BanController::class, 'ban'])->name('bans.ban');
-Route::post('/bans/unban/{user}', [BanController::class, 'unban'])->name('bans.unban');
-
-Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
-Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
@@ -64,12 +54,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Loaned items route
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/loaned-items', [LoanedItemsController::class, 'index'])->name('loaned-items');
-});
-
-// Item routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
-    Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
 });
 
 // Cart routes

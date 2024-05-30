@@ -9,12 +9,6 @@ use App\Models\ItemGroup;
 
 class ItemController extends Controller
 {
-    public function dashboard()
-    {
-        $itemGroups = ItemGroup::all(); // fetch all item groups
-        return view('test', compact('itemGroups')); // pass $itemGroups to the dashboard view
-    }
-
     // Method to display items
     public function index(Request $request)
     {
@@ -23,14 +17,15 @@ class ItemController extends Controller
 
         if ($search) {
             // Search items by name or first letter
-            $items = Item::where('name', 'LIKE', $search . '%')->get();
+            $item_groups = ItemGroup::where('name', 'LIKE', $search . '%')->get();
         } else {
             // Fetch all items if there's no search query
             $items = Item::all();
+            $item_groups = ItemGroup::all();
         }
 
         // Pass the items to the view
-        return view('dashboard', compact('items'));
+        return view('dashboard', compact('items', 'item_groups'));
     }
 
     public function store(Request $request)
