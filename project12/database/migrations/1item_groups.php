@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemGroupsTableV1 extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -21,4 +21,4 @@ class CreateItemGroupsTableV1 extends Migration
     {
         Schema::dropIfExists('item_groups');
     }
-}
+};

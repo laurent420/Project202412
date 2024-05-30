@@ -30,6 +30,13 @@ class ItemController extends Controller
     {
         // Validate the request data
         $validated = $request->validate([
+<<<<<<< HEAD
+            'name' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming picture is an image file
+        ]);
+
+=======
             'name' => 'required|string|max:255',            
             'brand' => 'required|string|max:255',
             'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming picture is an image file
@@ -51,6 +58,7 @@ class ItemController extends Controller
         // Update the item with the generated serial number
         $item->serialnumber = $serialnumber;
 
+>>>>>>> main
         // Handle picture upload
         if ($request->hasFile('picture')) {
             // Generate a unique name for the image
@@ -63,6 +71,45 @@ class ItemController extends Controller
             $validated['picture'] = 'images/' . $imageName;
         }
 
+<<<<<<< HEAD
+        // Create or find the item group
+        $itemGroup = ItemGroup::firstOrCreate(
+            [
+                'name' => $validated['name'],
+                'brand' => $validated['brand']
+            ],
+            [
+                'quantity' => 0 // Corrected spelling
+            ]
+        );
+
+        // Create the new item and set the item_group_id
+        $item = new Item($validated);
+        $item->item_group_id = $itemGroup->id; // Assign the item group ID
+        $item->status = false;
+        $item->save(); // Save to get the item ID
+
+        // Generate the serial number based on the item ID
+        $serialnumber = strtoupper(substr($item->brand, 0, 2) . substr($item->name, 0, 2) . $item->id);
+        $item->serialnumber = $serialnumber;
+
+        // Save the changes to the item with the generated serial number
+        $item->save();
+
+        // Increment the item group's quantity
+        $itemGroup->increment('quantity'); // Corrected spelling
+
+        return response()->json([
+            'message' => 'Item created successfully and grouped',
+            'item' => $item,
+            'item_group' => $itemGroup
+        ]);
+    }
+
+
+
+}
+=======
         // Save the changes to the item
         $item->update($validated);
 
@@ -76,3 +123,4 @@ class ItemController extends Controller
         return response()->json(['success' => true, 'item' => $item]);
     }
 }
+>>>>>>> main
