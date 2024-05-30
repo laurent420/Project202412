@@ -163,6 +163,13 @@
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+                    <div class="user-agreement">
+        <form action="/your-action-url" method="POST">
+            <!-- Your form fields here -->
+            <input type="checkbox" id="agree" name="agree" value="agree">
+            <label for="agree">I agree to the terms and conditions</label><br>
+        </form>
+    </div>
                         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </footer>
                 </div>
