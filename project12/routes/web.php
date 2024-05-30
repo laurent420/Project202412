@@ -13,8 +13,8 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\Route;
 
-Route::get('/item/{id}', [ItemController::class, 'show'])->name('item.show');
-    
+Route::get('/dashboard', [ItemController::class, 'dashboard'])->name('dashboard');
+
 // Authentication routes
 Route::get('/', function () {
     return view('auth/login');
@@ -36,13 +36,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
 Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
 
-
 Route::post('/bans/ban/{user}', [BanController::class, 'ban'])->name('bans.ban');
 Route::post('/bans/unban/{user}', [BanController::class, 'unban'])->name('bans.unban');
-
-
-
-
 
 Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');

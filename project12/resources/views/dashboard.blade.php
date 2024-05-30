@@ -10,7 +10,8 @@
             <br>
             @if (auth()->check() && auth()->user()->isAdmin())
                 <div class="mb-4">
-                    <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add Item</a>
+                    <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add
+                        Item</a>
                 </div>
             @endif
             <!-- Search Form -->
@@ -20,26 +21,30 @@
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
             </form>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($items as $item)
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
-                            <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
-                            <img src="{{ asset($item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
-                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 details"
-                                data-item-id="{{ $item->id }}" data-url="{{ route('item.show', $item->id) }}">Details</button>
-                            @if ($item->status == 0)
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
-                                    data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
-                                <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
-                                    data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
-                                    onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
-                            @else
-                                <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
-                            @endif
-                        </div>
-                    </div>
+                @foreach ($itemGroups as $itemGroup)
+                    <li>{{ $itemGroup->name }} - {{ $itemGroup->brand }} - Quantity: {{ $itemGroup->quantity }}</li>
                 @endforeach
+
+                <!-- @foreach ($items as $item)
+                        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                            <div class="p-6 text-gray-900 dark:text-gray-100">
+                                <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
+                                <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
+                                <img src="{{ asset($item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
+                                <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 details"
+                                    data-item-id="{{ $item->id }}" data-url="{{ route('item.show', $item->id) }}">Details</button>
+                                @if ($item->status == 0)
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
+                                        data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
+                                    <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
+                                        data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
+                                        onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
+                                @else
+                                    <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach -->
             </div>
         </div>
     </x-app-layout>
@@ -60,28 +65,28 @@
                     class="px-4 py-2 border rounded">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
             </form>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($items as $item)
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
-                            <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
-                            <img src="{{ asset($item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
-                            @if ($item->status == 0)
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
-                                    data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
-                                <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
-                                    data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
-                                    onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
-                            @else
-                                <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
-                            @endif
-                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 details"
-                                data-item-id="{{ $item->id }}" data-url="{{ route('item.show', $item->id) }}">Details</button>
+            <!-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach ($items as $item)
+                        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                            <div class="p-6 text-gray-900 dark:text-gray-100">
+                                <h3 class="text-lg font-semibold mb-2">{{ $item->name }}</h3>
+                                <p class="text-sm mb-2">Amount Left: {{ $item->quantity }}</p>
+                                <img src="{{ asset($item->picture) }}" alt="{{ $item->name }}" class="w-full mb-2">
+                                @if ($item->status == 0)
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
+                                        data-item-id="{{ $item->id }}" data-url="{{ route('cart-items.store') }}">Add to Bag</button>
+                                    <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
+                                        data-item-id="{{ $item->id }}" data-url="{{ route('favourites.add') }}"
+                                        onclick="addToFavorite({{ $item->id }})">Add to Favorite</button>
+                                @else
+                                    <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
+                                @endif
+                                <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 details"
+                                    data-item-id="{{ $item->id }}" data-url="{{ route('item.show', $item->id) }}">Details</button>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div> -->
         </div>
     </x-app-layout>
 @endif
@@ -93,7 +98,8 @@
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div
+            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
             <div class="bg-white px-
             8 py-6 sm:px-10">
                 <div class="sm:flex sm:items-start">
@@ -114,7 +120,8 @@
                     </div>
                 </div>
                 <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                    <button type="button" class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-md shadow-sm focus:outline-none"
+                    <button type="button"
+                        class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-md shadow-sm focus:outline-none"
                         onclick="closeDetailModal()">Close</button>
                 </div>
             </div>

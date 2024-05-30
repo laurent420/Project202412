@@ -6,11 +6,14 @@
 
     class Item extends Model
     {
-        protected $fillable = ['name', 'brand', 'picture', 'item_group_id', 'status', 'serialnumber'];
+        protected $fillable = [
+            'name', 'brand', 'picture', 'serialnumber', 'status', 'item_group_id'
+        ];
     
         public function itemGroup()
         {
             return $this->belongsTo(ItemGroup::class);
         }
     }
+    
     
