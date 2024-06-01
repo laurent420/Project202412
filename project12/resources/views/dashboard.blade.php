@@ -14,8 +14,6 @@
 </head>
 
 <body>
-
-
     <!-- Admin -->
     @if (auth()->check() && auth()->user()->isAdmin())
         <x-app-layout>
@@ -61,21 +59,14 @@
             </div>
         </x-app-layout>
     @else
-        <!-- niet admin -->
+    <!-- niet admin -->
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     {{ __('Dashboard') }}
                 </h2>
             </x-slot>
-            <div class="container mx-auto">
-                <br>
-                @if (auth()->check() && auth()->user()->isAdmin())
-                    <div class="mb-4">
-                        <a href="{{ route('additem') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Add
-                            Item</a>
-                    </div>
-                @endif
+            <div class="container mx-auto"><br>
                 <!-- Search Form -->
                 <form method="GET" action="{{ route('dashboard') }}" class="mb-4">
                     <input type="text" name="search" placeholder="Search items..." value="{{ request('search') }}"
@@ -91,8 +82,7 @@
                                 <img src="{{ asset($group->picture) }}" alt="{{ $group->name }}" class="w-full mb-2">
                                 @if ($group->quantity != 0)
                                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
-                                        data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to
-                                        Bag</button>
+                                        data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to bag</button>
                                         <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-favorites" data-item-id="{{ $group->id }}">Add to Favorites</button>
                                 @else
                                     <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
@@ -110,35 +100,41 @@
 
 
 
-    <script> document.addEventListener('DOMContentLoaded', function () {
-            // Add to Cart
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function () {
-                    const itemId = this.getAttribute('data-item-id');
-                    const url = this.getAttribute('data-url');
+    <script> 
+document.addEventListener('DOMContentLoaded', function () {
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-item-id');
+            const url = this.getAttribute('data-url');
 
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({ item_id: itemId })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Failed to add item to bag.');
-                            } else {
-                                alert('Item added to bag!');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred while adding the item to the bag.');
-                        });
-                });
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ item_id: itemId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message === 'Item added to bag') {
+                    alert('Item added to bag!');
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while adding the item to the bag.');
             });
+        });
+    });        
             // Add to Favorite
             document.querySelectorAll('.add-to-favorite').forEach(button => {
                 button.addEventListener('click', function () {
@@ -167,5 +163,6 @@
                 });
             });
         });
+    </script> 
 
     

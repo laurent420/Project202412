@@ -11,6 +11,8 @@ return new class extends Migration{
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('item_status');
+            $table->foreignId('cart_item_id')->constrained()->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('qauntity');
