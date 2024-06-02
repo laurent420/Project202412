@@ -74,3 +74,11 @@ https://stackoverflow.com/questions/63807930/error-target-class-controller-does-
 https://blackbox.ai/share/ba8abb08-5892-4fad-92a4-837dd135c3b1
 https://blackbox.ai/share/3d42b751-06b0-4fba-9ad4-09859176b9ec
 https://blackbox.ai/share/5b117061-0b97-45a1-b30e-8f7d054eed52
+
+
+
+https://chatgpt.com/share/50b1954e-573e-44f1-81d2-87490edf136f
+https://chatgpt.com/share/93e0eb43-ea7c-4970-9258-6a1290aaa6a1
+https://chatgpt.com/share/10e846b8-feb0-4249-8321-009f8b7d62c4
+https://chatgpt.com/share/2d065a77-4513-414a-83e4-601697c406b8
+https://www.w3schools.com/tags/tag_button.asp 
