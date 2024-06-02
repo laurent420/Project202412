@@ -15,6 +15,13 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->timestamps();
         });
+
+        Schema::create('carts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('item_group_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     public function down()

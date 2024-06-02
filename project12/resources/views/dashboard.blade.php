@@ -59,7 +59,7 @@
             </div>
         </x-app-layout>
     @else
-    <!-- niet admin -->
+        <!-- niet admin -->
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -82,8 +82,10 @@
                                 <img src="{{ asset($group->picture) }}" alt="{{ $group->name }}" class="w-full mb-2">
                                 @if ($group->quantity != 0)
                                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
-                                        data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to bag</button>
-                                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-favorites" data-item-id="{{ $group->id }}">Add to Favorites</button>
+                                        data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to
+                                        bag</button>
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-favorites"
+                                        data-item-id="{{ $group->id }}">Add to Favorites</button>
                                 @else
                                     <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
                                 @endif
@@ -95,74 +97,68 @@
         </x-app-layout>
     @endif
 
-    </body >
-</html >
+</body>
+
+</html>
 
 
 
-    <script> 
-document.addEventListener('DOMContentLoaded', function () {
-    // Add to Cart
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function () {
-            const itemId = this.getAttribute('data-item-id');
-            const url = this.getAttribute('data-url');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = this.dataset.itemId;
+            const url = this.dataset.url;
 
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ item_id: itemId })
+                body: JSON.stringify({
+                    item_id: itemId
+                })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (data.message === 'Item added to bag') {
-                    alert('Item added to bag!');
+                if (data.success) {
+                    alert(data.success);
+                    // Optionally update the UI to reflect the new quantity
                 } else {
-                    alert(data.message);
+                    alert(data.error);
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while adding the item to the bag.');
-            });
+            .catch(error => console.error('Error:', error));
         });
-    });        
-            // Add to Favorite
-            document.querySelectorAll('.add-to-favorite').forEach(button => {
-                button.addEventListener('click', function () {
-                    const itemId = this.getAttribute('data-item-id');
-                    const url = this.getAttribute('data-url');
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({ item_id: itemId })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Failed to add item to favorite.');
-                            } else {
-                                alert('Item added to favorite!');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred while adding the item to favorite.');
-                        });
-                });
-            });
-        });
-    </script> 
+    });
 
-    
+        // Add to Favorite
+        document.querySelectorAll('.add-to-favorite').forEach(button => {
+            button.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-item-id');
+                const url = this.getAttribute('data-url');
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ item_id: itemId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Failed to add item to favorite.');
+                        } else {
+                            alert('Item added to favorite!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while adding the item to favorite.');
+                    });
+            });
+        });
+    });
+</script>
