@@ -81,9 +81,19 @@
                                 <p class="text-sm mb-2">Total Items: {{ $group->items->count() }}</p>
                                 <img src="{{ asset($group->picture) }}" alt="{{ $group->name }}" class="w-full mb-2">
                                 @if ($group->quantity != 0)
+<<<<<<< Updated upstream
                                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart" data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to bag</button>
                                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-favorites"
                                         data-item-id="{{ $group->id }}" data-url="{{ route('favourites.add') }}">Add to Favorites</button>
+=======
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
+                                        data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to
+                                        Bag</button>
+                                        <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
+                                    data-item-id="{{ $group->id }}" data-url="{{ route('favourites.add') }}"
+                                    onclick="addToFavorite({{ $group->id }})">Add to Favorite</button>
+
+>>>>>>> Stashed changes
                                 @else
                                     <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
                                 @endif
@@ -127,20 +137,30 @@
         });
     });
 
+<<<<<<< Updated upstream
     document.querySelectorAll('.add-to-favorites').forEach(button => {
+=======
+<script> document.addEventListener('DOMContentLoaded', function () {
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+>>>>>>> Stashed changes
         button.addEventListener('click', function () {
             const itemId = this.getAttribute('data-item-id');
             const url = this.getAttribute('data-url');
 
+<<<<<<< Updated upstream
             console.log('Adding item to favorites:', itemId); // Log the item ID
             console.log('URL:', url); // Log the URL
 
+=======
+>>>>>>> Stashed changes
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
+<<<<<<< Updated upstream
                 body: JSON.stringify({ item_group_id: itemId })
             })
             .then(response => {
@@ -155,10 +175,21 @@
                     alert('Item already favorited.');
                 } else {
                     alert('Failed to add item to favorites.');
+=======
+                body: JSON.stringify({ item_id: itemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Failed to add item to bag.');
+                } else {
+                    alert('Item added to bag!');
+>>>>>>> Stashed changes
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+<<<<<<< Updated upstream
                 alert('An error occurred while adding the item to favorites.');
             });
         });
@@ -166,3 +197,40 @@
 });
 
 </script>
+=======
+                alert('An error occurred while adding the item to the bag.');
+            });
+        });
+    });
+
+    // Add to Favorite
+    document.querySelectorAll('.add-to-favorite').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = this.getAttribute('data-item-id');
+            const url = this.getAttribute('data-url');
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ item_id: itemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Failed to add item to favorite.');
+                } else {
+                    alert('Item added to favorite!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while adding the item to favorite.');
+            });
+        });
+    });
+});
+
+>>>>>>> Stashed changes
