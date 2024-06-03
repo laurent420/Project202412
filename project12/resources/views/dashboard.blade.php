@@ -1,14 +1,6 @@
-
-@if (auth()->check() && auth()->user()->isAdmin())
-    <x-app-layout>
-        <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Dashboard') }}
-            </h2>
-        </x-slot>
 <!DOCTYPE html>
 <html lang="en">
-
+  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
-
+ 
 <body>
     <!-- Admin -->
     @if (auth()->check() && auth()->user()->isAdmin())
@@ -65,8 +57,6 @@
                     @endforeach
                 </div>
             </div>
-        </div>
-    </div>
         </x-app-layout>
     @else
         <!-- Not Admin -->
@@ -107,16 +97,16 @@
         </x-app-layout>
     @endif
 </body>
-
+ 
 </html>
-
+ 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function () {
             const itemId = this.dataset.itemId;
             const url = this.dataset.url;
-
+ 
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -138,15 +128,15 @@
             .catch(error => console.error('Error:', error));
         });
     });
-
+ 
     document.querySelectorAll('.add-to-favorites').forEach(button => {
         button.addEventListener('click', function () {
             const itemId = this.getAttribute('data-item-id');
             const url = this.getAttribute('data-url');
-
+ 
             console.log('Adding item to favorites:', itemId); // Log the item ID
             console.log('URL:', url); // Log the URL
-
+ 
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -176,5 +166,5 @@
         });
     });
 });
-
+ 
 </script>

@@ -26,7 +26,7 @@ Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/dashboard/{id}/remove', [ItemController::class, 'remove'])->name('dashboard.remove');
+    Route::delete('/dashboard/{id}/remove', [ItemController::class, 'remove'])->name('dashboard.remove');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

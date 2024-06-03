@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\ItemGroup;
+use Illuminate\Support\Facades\Log;
 
 
 class ItemController extends Controller
@@ -28,35 +29,9 @@ class ItemController extends Controller
         // Pass the items to the view
         return view('dashboard', compact('item_groups'));
     }
-    public function remove(Request $request)
-    {
-        $item = Item::find($request->id);
-        
-        if (!$item) {
-            return redirect()->back()->with('error', 'Item not found!');
-        }
-        
-        $itemGroup = $item->itemGroup;
-        $itemGroupQuantity = $itemGroup->quantity; 
+
     
-        if ($item->status === 1) {
-            $item->delete();
-            
-            // Retrieve the current quantity of the ItemGroup
-            $newItemGroupQuantity = Item::where('item_group_id', $itemGroup->id)->count();
-            
-            // Check if the new quantity is zero, then delete the ItemGroup
-            if ($newItemGroupQuantity === 0) {
-                $itemGroup->delete();
-            }
-            
-            return redirect()->back()->with('success', 'Item removed successfully!');
-        } else {
-            return redirect()->back()->with('error', 'Item is currently in use!');
-        }
-    }
-    
-    
+
     public function store(Request $request)
     {
         try {
@@ -108,7 +83,7 @@ class ItemController extends Controller
 
             // Increment the item group's quantity
             $itemGroup->increment('quantity');
-
+            
             // Redirect back to the same page
             return redirect()->back();
         } catch (\Exception $e) {

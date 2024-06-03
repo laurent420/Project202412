@@ -6,10 +6,10 @@
     </x-slot>
 
     <div class="container mx-auto p-6">
-        <h1 class="text-2xl font-semibold mb-6">Your Cart</h1>
+        <h1 class="text-2xl font-semibold mb-6"></h1>
 
         @if ($cartItems->isEmpty())
-            <p>Your cart is empty.</p>
+            <p style= "font-size: 2em;" >Your bag is empty.</p>
         @else
             @if(session('success'))
                 <div class="bg-green-500 text-white p-4 rounded mb-6">

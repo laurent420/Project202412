@@ -21,7 +21,7 @@
                             @endif
                             <form method="POST" action="{{ route('dashboard.remove', ['id' => $item->id]) }}">
                                 @csrf
-                                @method('POST')
+                                @method('DELETE')
                                 <div class="modal-footer">
                                     <button type="submit"
                                         class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
