@@ -6,29 +6,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
 use App\Models\Item;
-
+use App\Models\Lending; // Import the Lending model
 
 class LoanedItemsController extends Controller
 {
-    
     public function index(Request $request)
     {
         // Check if there's a search query
         $search = $request->input('search');
 
         if ($search) {
-            // Search loaned items by name or first letter
-            $loanedItems = Booking::whereHas('item', function ($query) use ($search) {
+            // Search loaned items by item name or brand
+            $loanedItems = Lending::whereHas('itemGroup', function ($query) use ($search) {
                 $query->where('name', 'LIKE', $search . '%');
-            })->with('item')->get();
+            })->with('itemGroup')->get();
         } else {
             // Fetch all loaned items if there's no search query
-            $loanedItems = Booking::with('item')->get();
+            $loanedItems = Lending::with('itemGroup')->get();
         }
 
-        // Pass the loaned items to the view
+        // Pass the loaned items to the view for both admin and non-admin users
         return view('loaneditems', compact('loanedItems'));
     }
+
+
+    
 
     
 
