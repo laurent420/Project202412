@@ -25,11 +25,8 @@ class LoanedItemsController extends Controller
             $loanedItems = Lending::with('itemGroup')->get();
         }
 
-        // Determine the view based on the user's role
-        $view = auth()->user()->isAdmin() ? 'loaneditems' : 'user.loaneditems';
-
-        // Pass the loaned items to the view
-        return view($view, compact('loanedItems'));
+        // Pass the loaned items to the view for both admin and non-admin users
+        return view('loaneditems', compact('loanedItems'));
     }
 
 
