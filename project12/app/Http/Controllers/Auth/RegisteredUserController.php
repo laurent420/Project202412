@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
+
 
 
 class RegisteredUserController extends Controller
@@ -50,6 +52,18 @@ class RegisteredUserController extends Controller
     }
     public function returned(User $user)
     {
+        log::info('Returned method was called');
+        $user->status = 'Teruggebracht';
+        $user->save();
+
+    Log::info('User status is now ' . $user->status);
+
+    return redirect()->back()->with('status', 'User status updated to "Teruggebracht"');
+
         // Voer hier de logica uit om de gebruiker als "teruggebracht" te markeren
+    }
+    public function show(User $user)
+    {
+        return view('user.show', ['user' => $user]);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\{
+    BanController,
     ItemController, 
     AddItemController, 
     FavoriteController, 

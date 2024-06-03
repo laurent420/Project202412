@@ -23,6 +23,7 @@ class User extends Authenticatable
         'is_banned',
         'beginBan',
         'endBan',
+        'status',
     ];
 
     /**

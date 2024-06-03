@@ -36,6 +36,12 @@
 
 <body>
     <x-app-layout>
+
+    @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Users') }}
@@ -48,6 +54,7 @@
                     <div class="card-body">
                         <h3 class="card-title">{{ $user->name }}</h3>
                         <p class="card-text">ID: {{ $user->id }}</p>
+                        <p class="card-text">Status: {{ $user->status }}</p>
                         @if ($user->is_banned == 1)
                             <form method="POST" action="{{ route('users.unban', $user->id) }}">
                                 @csrf
@@ -61,6 +68,12 @@
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
                                     data-target="#banUserModal{{ $user->id }}">
                                     Ban User
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ route('users.returned', $user) }}">
+                                 @csrf
+                                <button type="submit" class= "btn btn-primary">
+                                    Teruggebracht
                                 </button>
                                 @include('components.modal', ['user' => $user])
                             </form>
