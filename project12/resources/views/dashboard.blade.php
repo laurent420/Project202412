@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- Include Bootstrap CSS and JS for modal functionality -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -14,7 +13,6 @@
 </head>
  
 <body>
-    <!-- Admin -->
     @if (auth()->check() && auth()->user()->isAdmin())
         <x-app-layout>
             <x-slot name="header">
@@ -30,7 +28,6 @@
                             Item</a>
                     </div>
                 @endif
-                <!-- Search Form -->
                 <form method="GET" action="{{ route('dashboard') }}" class="mb-4">
                     <input type="text" name="search" placeholder="Search items..." value="{{ request('search') }}"
                         class="px-4 py-2 border rounded">
@@ -59,7 +56,6 @@
             </div>
         </x-app-layout>
     @else
-        <!-- Not Admin -->
         <x-app-layout>
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -67,7 +63,6 @@
                 </h2>
             </x-slot>
             <div class="container mx-auto"><br>
-                <!-- Search Form -->
                 <form method="GET" action="{{ route('dashboard') }}" class="mb-4">
                     <input type="text" name="search" placeholder="Search items..." value="{{ request('search') }}"
                         class="px-4 py-2 border rounded">
@@ -83,9 +78,11 @@
                                 @if ($group->quantity != 0)
                                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
                                         data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to
-                                        bag</button>
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-favorites"
-                                        data-item-id="{{ $group->id }}" data-url="{{ route('favourites.add') }}">Add to Favorites</button>
+                                        Bag</button>
+                                        <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 add-to-favorite"
+                                    data-item-id="{{ $group->id }}" data-url="{{ route('favourites.add') }}"
+                                    onclick="addToFavorite({{ $group->id }})">Add to Favorite</button>
+
                                 @else
                                     <button class="bg-gray-500 text-white px-4 py-2 rounded mb-2" disabled>Out of Stock</button>
                                 @endif
@@ -102,69 +99,37 @@
  
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function () {
-            const itemId = this.dataset.itemId;
-            const url = this.dataset.url;
- 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    item_id: itemId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.success);
-                } else {
-                    alert(data.error);
+        const buttons = document.querySelectorAll('.add-to-cart, .add-to-favorite');
+        buttons.forEach(button => {
+            button.addEventListener('click', async function () {
+                const itemId = this.dataset.itemId;
+                const url = this.dataset.url;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            item_id: itemId
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert(data.success);
+                    } else {
+                        alert(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
                 }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    });
- 
-    document.querySelectorAll('.add-to-favorites').forEach(button => {
-        button.addEventListener('click', function () {
-            const itemId = this.getAttribute('data-item-id');
-            const url = this.getAttribute('data-url');
- 
-            console.log('Adding item to favorites:', itemId); // Log the item ID
-            console.log('URL:', url); // Log the URL
- 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ item_group_id: itemId })
-            })
-            .then(response => {
-                console.log('Response status:', response.status); // Log the response status
-                return response.json();
-            })
-            .then(data => {
-                console.log('Response data:', data); // Log the response data
-                if (data.message === 'Item added to favorites.') {
-                    alert('Item added to favorites!');
-                } else if (data.message === 'Item already favorited.') {
-                    alert('Item already favorited.');
-                } else {
-                    alert('Failed to add item to favorites.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while adding the item to favorites.');
             });
         });
     });
-});
- 
 </script>

@@ -63,17 +63,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Cart routes
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/MyCart', [CartItemController::class, 'index'])->name('MyCart');
-//     Route::post('/cart-items', [CartItemController::class, 'store'])->name('cart-items.store');
-//     Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
-// });
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/MyCart', [CartItemController::class, 'index'])->name('MyCart');
+    Route::post('/cart-items', [CartItemController::class, 'store'])->name('cart-items.store');
+    Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
+});
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/MyCart', [CartController::class, 'index'])->name('MyCart');
     Route::post('/MyCart-items/store', [CartController::class, 'store'])->name('cart-items.store');
+    Route::get('/MyCart', [CartController::class, 'show'])->name('MyCart');
     Route::delete('/MyCart-items/{id}', [CartController::class, 'remove'])->name('cart-items.remove');
-    Route::post('/cart-items/lend', [CartController::class, 'lend'])->name('cart-items.lend');
+
 });
 
 // Favorite routes
