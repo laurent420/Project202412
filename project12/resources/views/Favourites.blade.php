@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/css/favourites.css">
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -6,59 +5,51 @@
         </h2>
     </x-slot>
 
-    
-    @foreach ($favorites as $favorite)
-        @if ($favorite->item)
-            <div class="py-12">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <h3 class="text-lg font-semibold mb-2 ">{{ $favorite->item->name }}</h3>
-                            <div class="w-full flex-none text-sm font-medium text-slate-700 mt-2">
-                                amount left:  
+    <div class="container mx-auto py-8" style="background-color: #f7f7f7; padding: 20px;">
+        @foreach ($favorites as $favorite)
+            @if ($favorite->item)
+                <div class="py-6">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="bg-white shadow-sm sm:rounded-lg" style="background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="p-6 text-gray-900" style="padding: 24px;">
+                                <h3 class="text-lg font-semibold mb-2" style="font-size: 1.25rem; margin-bottom: 8px;">{{ $favorite->item->name }}</h3>
+                                <div class="text-sm font-medium text-slate-700 mb-4" style="margin-bottom: 16px; color: #4a5568;">
+                                    Amount left:  <!-- Je kunt hier de hoeveelheid invoegen -->
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <!-- Unfavourite Button -->
+                                    <button class="unfavourite" style="background-color: #D97706; color: white; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s ease;"
+                                            data-favourite-id="{{ $favorite->id }}"
+                                            data-url="{{ route('favourites.remove', $favorite->id) }}">
+                                        Unfavourite
+                                    </button>
+                                    <!-- Add to Bag Button -->
+                                    <button class="add-to-cart" style="background-color: #1D4ED8; color: white; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s ease;"
+                                            data-item-id="{{ $favorite->item->id }}"
+                                            data-url="{{ route('cart-items.store') }}">
+                                        Add to Bag
+                                    </button>
+                                </div>
                             </div>
-                            <!-- Unfavourite Button -->
-                            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mb-2 float-right unfavourite"
-                                    data-favourite-id="{{ $favorite->id }}"
-                                    data-url="{{ route('favourites.remove', $favorite->id) }}">
-                                Unfavourite
-                            </button>
-                            <!-- Add to Bag Button -->
-                            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 float-right add-to-cart"
-                                    data-item-id="{{ $favorite->item->id }}"
-                                    data-url="{{ route('cart-items.store') }}">
-                                Add to Bag
-                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endif
-    @endforeach
-</div>
+            @endif
+        @endforeach
+    </div>
 
-
-    <!-- Add the JavaScript code for handling the button click -->
+    <!-- JavaScript code for handling the button click -->
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Select all buttons with the class 'add-to-cart'
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
-
-        // Loop through each button and add a click event listener
         addToCartButtons.forEach(button => {
             button.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent the default action
+                event.preventDefault();
                 const itemId = this.getAttribute('data-item-id');
                 const url = this.getAttribute('data-url');
-
-                // Disable the button to prevent multiple clicks
                 this.disabled = true;
-
-                // Create a form data object
                 const formData = new FormData();
                 formData.append('item_id', itemId);
-
-                // Make an AJAX request to add the item to the cart
                 fetch(url, {
                     method: 'POST',
                     headers: {
@@ -68,32 +59,27 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    this.disabled = false; // Re-enable the button
+                    this.disabled = false;
                     if (data.success) {
-                        alert('Failed to add item to bag.');
-                    } else {
                         alert('Item added to bag successfully!');
+                    } else {
+                        alert('Failed to add item to bag.');
                     }
                 })
                 .catch(error => {
-                    this.disabled = false; // Re-enable the button
+                    this.disabled = false;
                     console.error('Error:', error);
                     alert('An error occurred.');
                 });
             });
         });
 
-        // Select all buttons with the class 'unfavourite'
         const unfavouriteButtons = document.querySelectorAll('.unfavourite');
-
-        // Loop through each unfavourite button and add a click event listener
         unfavouriteButtons.forEach(button => {
             button.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent the default action
+                event.preventDefault();
                 const favouriteId = this.getAttribute('data-favourite-id');
                 const url = this.getAttribute('data-url');
-
-                // Make an AJAX request to unfavourite the item
                 fetch(url, {
                     method: 'DELETE',
                     headers: {
@@ -102,7 +88,6 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Remove the item from the DOM
                         button.closest('.max-w-7xl').remove();
                         alert('Item removed from favourites successfully!');
                     } else {
@@ -116,6 +101,5 @@
             });
         });
     });
-</script>
-
+    </script>
 </x-app-layout>

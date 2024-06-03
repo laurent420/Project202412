@@ -11,12 +11,11 @@ use App\Http\Controllers\{
     LoanedItemsController, 
     ProfileController, 
     CalendarController, 
-    BansController
+    BansController,
+    CartController,
 };
 use Illuminate\Support\Facades\Route;
 
-Route::get('/item/{id}', [ItemController::class, 'show'])->name('item.show');
-    
 // Authentication routes
 Route::get('/', function () {
     return view('auth/login');
@@ -26,6 +25,21 @@ Route::get('/', function () {
 Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/dashboard/{id}/remove', [ItemController::class, 'remove'])->name('dashboard.remove');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/LoanedItems', [ItemController::class, 'loandedItemsAdmin'])->name('LoanedItems');
+});
+
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
+    Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
+});
+
 // Profile routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Users', [ProfileController::class, 'showUsers'])->name('Users');
@@ -34,34 +48,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// User ban/unban routes
-Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
-Route::post('/users/{user}/unban', [BansController::class, 'unban'])->name('users.unban');
-
-
-Route::post('/bans/ban/{user}', [BanController::class, 'ban'])->name('bans.ban');
-Route::post('/bans/unban/{user}', [BanController::class, 'unban'])->name('bans.unban');
-
-
-
-
-
-Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
-Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
-
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
-    // Other routes...
-});
 // Item routes
 Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
 Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
-// Loaned items and cart routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/LoanedItems', [LoanedItemsController::class, 'index'])->name('LoanedItems');
-    // Other routes...
-});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/users/{user}/ban', [BansController::class, 'ban'])->name('users.ban');
@@ -73,17 +62,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/loaned-items', [LoanedItemsController::class, 'index'])->name('loaned-items');
 });
 
-// Item routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/additem', [ItemController::class, 'store'])->name('items.store');
-    Route::get('/additem', [AddItemController::class, 'index'])->name('additem');
-});
-
 // Cart routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/MyCart', [CartItemController::class, 'index'])->name('MyCart');
-    Route::post('/cart-items', [CartItemController::class, 'store'])->name('cart-items.store');
-    Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/MyCart', [CartItemController::class, 'index'])->name('MyCart');
+//     Route::post('/cart-items', [CartItemController::class, 'store'])->name('cart-items.store');
+//     Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
+// });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/MyCart', [CartController::class, 'index'])->name('MyCart');
+    Route::post('/MyCart-items/store', [CartController::class, 'store'])->name('cart-items.store');
+    Route::delete('/MyCart-items/{id}', [CartController::class, 'remove'])->name('cart-items.remove');
+    Route::post('/cart-items/lend', [CartController::class, 'lend'])->name('cart-items.lend');
 });
 
 // Favorite routes
@@ -117,7 +107,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/save-date', [CalendarController::class, 'saveDate'])->name('saveDate');
-Route::get('/search', 'SearchController@search')->name('search');
+Route::get('/search', [ItemController::class,'index'])->name('search');
+Route::get('/searchLoanedItems', [ItemController::class,'loandedItemsAdmin'])->name('searchLoanedItems');
+
 Route::post('/user-agreement', 'RegistrationController@handleUserAgreement')->name('user.agreement');
 
 });
