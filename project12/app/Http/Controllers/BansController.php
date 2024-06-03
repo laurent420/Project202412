@@ -4,41 +4,39 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Ban;
+use App\Models\Bans;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfileUpdateRequest;
 
-class BanController extends Controller
+class BansController extends Controller
 {
-    public function ban(User $user, Request $request)
+    public function ban(User $user)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'ban_reason' => 'required|string|max:255', // Update the field name to match the form input
-        ]);
-    
         // Create a new ban record associated with the user
         $user->bans()->create([
             'is_banned' => true,
             'begin_ban' => now(),
             'end_ban' => now()->addMonths(3),
-            'description' => $request->ban_reason, // Update to use the correct field name
+            'description' => 'User banned.'
         ]);
-    
         // Update the user's is_banned attribute
         $user->update(['is_banned' => true]);
-    
+
         // Redirect back with success message
         return redirect()->back()->with('success', 'User has been banned successfully.');
-    }   
+    }
+
     public function unban(User $user)
     {
-        $user->bans()->delete(); 
-        $user->update(['is_banned' => false]);
-        return redirect()->back()->with('success', 'User has been unbanned successfully.');
+        // Remove the ban record associated with the user
+        $user->bans()->delete(); // Assuming there is only one ban record per user
 
-        if ('end_ban' == now()) {
-            $user->bans()->delete();
-            $user->update(['is_banned' => false]);
-        }
+        // Update the user's is_banned attribute
+        $user->update(['is_banned' => false]);
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'User has been unbanned successfully.');
     }
 }
+
