@@ -28,35 +28,37 @@ class ItemController extends Controller
         // Pass the items to the view
         return view('dashboard', compact('item_groups'));
     }
-    public function remove(Request $request)
+    public function remove(Request $request, $id)
     {
-        $item = Item::find($request->id);
-        
+        $item = Item::find($id);
+
         if (!$item) {
             return redirect()->back()->with('error', 'Item not found!');
         }
-        
+
         $itemGroup = $item->itemGroup;
-        $itemGroupQuantity = $itemGroup->quantity; 
-    
-        if ($item->status === 1) {
+        $itemGroupQuantity = $itemGroup->quantity;
+
+        if ($item->status === 0) { // Ensure status logic matches your requirements
             $item->delete();
-            
+
             // Retrieve the current quantity of the ItemGroup
             $newItemGroupQuantity = Item::where('item_group_id', $itemGroup->id)->count();
-            
+
             // Check if the new quantity is zero, then delete the ItemGroup
             if ($newItemGroupQuantity === 0) {
                 $itemGroup->delete();
             }
-            
+
             return redirect()->back()->with('success', 'Item removed successfully!');
         } else {
             return redirect()->back()->with('error', 'Item is currently in use!');
         }
     }
-    
-    
+
+
+
+
     public function store(Request $request)
     {
         try {
@@ -84,12 +86,19 @@ class ItemController extends Controller
             $itemGroup = ItemGroup::firstOrCreate(
                 [
                     'name' => $validated['name'],
-                    'brand' => $validated['brand']
+                    'brand' => $validated['brand'],
                 ],
                 [
-                    'quantity' => 0
+                    'quantity' => 0,
+                    'picture' => $validated['picture'] ?? null,
                 ]
             );
+
+            // Update item group picture if it's empty and a new picture is uploaded
+            if (empty($itemGroup->picture) && isset($validated['picture'])) {
+                $itemGroup->picture = $validated['picture'];
+                $itemGroup->save();
+            }
 
             // Create the item
             $item = new Item($validated);
@@ -120,13 +129,15 @@ class ItemController extends Controller
         }
     }
 
+
+
     public function loandedItemsAdmin(Request $request)
     {
         // Check if there's a search query
         $search = $request->input('search');
-
+    
         if ($search) {
-            // Search items by name or brand
+            // Search loaned items by name or brand
             $items = Item::where('name', 'LIKE', $search . '%')
                 ->orWhere('brand', 'LIKE', $search . '%')
                 ->get();
@@ -134,11 +145,11 @@ class ItemController extends Controller
             // Fetch all items if there's no search query
             $items = Item::all();
         }
-
-
+    
         // Pass the items to the view
         return view('LoanedItems', compact('items'));
     }
+    
 
 }
 

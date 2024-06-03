@@ -81,9 +81,7 @@
                                 <p class="text-sm mb-2">Total Items: {{ $group->items->count() }}</p>
                                 <img src="{{ asset($group->picture) }}" alt="{{ $group->name }}" class="w-full mb-2">
                                 @if ($group->quantity != 0)
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart"
-                                        data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to
-                                        bag</button>
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-cart" data-item-id="{{ $group->id }}" data-url="{{ route('cart-items.store') }}">Add to bag</button>
                                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-2 add-to-favorites"
                                         data-item-id="{{ $group->id }}" data-url="{{ route('favourites.add') }}">Add to Favorites</button>
                                 @else

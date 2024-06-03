@@ -64,6 +64,24 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ 
+## Instalatie van Laravel
+(https://laravel.com/docs/11.x/installation)composer install 
+
+Je moet beginnen met het installeren van PHP en composer. Dit is het gemakkelijkste via Laravel Herd. (https://herd.laravel.com/windows)    
+Voor ons programma is het installeren van node en npm ook belangrijk.(https://nodejs.org/en)
+
+Daarna gaan we breeze installeren. Breeze is een starters pakket van Laravel. Hiervoor gaan we een paar commandos moeten gebruiken in de terminal van het project.
+Begin met er voor te zorgen dan je in de juiste file zit in de terminal. Als dit niet zo is moet je eerst met het "cd" commando navigeren naar de correcte file.
+
+Eenmaal dat dit gelukt is moet je volgende commando's gebruiken:
+1. composer require laravel/breeze --dev
+
+2. php artisan breeze:install
+
+3. npm install
+
+4. npm run dev
 
 
 
