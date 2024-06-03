@@ -10,30 +10,42 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                @if (auth()->check() && auth()->user()->isAdmin())
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Home') }}
+                        </x-nav-link>
 
-                    <!-- Add your additional navigation links here -->
-                    <x-nav-link :href="route('my-bag')" :active="request()->routeIs('my-bag')">
-                        {{ __('My Bag') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('LoanedItems')" :active="request()->routeIs('LoanedItems')">
+                            {{ __('Loaned Items') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
-                        {{ __('Favourites') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    </div>
+                @else
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Home') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                        {{ __('Users') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('LoanedItems')" :active="request()->routeIs('LoanedItems')">
+                            {{ __('Loaned Items') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('info')" :active="request()->routeIs('info')">
-                        {{ __('Info') }}
-                    </x-nav-link>
-                </div>
-            </div>
+                        <x-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
+                            {{ __('My Bag') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+                            {{ __('Favourites') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
+                            {{ __('Info') }}
+                        </x-nav-link>
+                    </div>
+                @endif
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
