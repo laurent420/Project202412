@@ -6,36 +6,42 @@
     </x-slot>
 
     <div class="container mx-auto py-8" style="background-color: #f7f7f7; padding: 20px;">
-        @foreach ($favorites as $favorite)
-            @if ($favorite->item)
-                <div class="py-6">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white shadow-sm sm:rounded-lg" style="background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                            <div class="p-6 text-gray-900" style="padding: 24px;">
-                                <h3 class="text-lg font-semibold mb-2" style="font-size: 1.25rem; margin-bottom: 8px;">{{ $favorite->item->name }}</h3>
-                                <div class="text-sm font-medium text-slate-700 mb-4" style="margin-bottom: 16px; color: #4a5568;">
-                                    Amount left:  <!-- Je kunt hier de hoeveelheid invoegen -->
-                                </div>
-                                <div class="flex justify-end space-x-2">
-                                    <!-- Unfavourite Button -->
-                                    <button class="unfavourite" style="background-color: #D97706; color: white; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s ease;"
-                                            data-favourite-id="{{ $favorite->id }}"
-                                            data-url="{{ route('favourites.remove', $favorite->id) }}">
-                                        Unfavourite
-                                    </button>
-                                    <!-- Add to Bag Button -->
-                                    <button class="add-to-cart" style="background-color: #1D4ED8; color: white; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s ease;"
-                                            data-item-id="{{ $favorite->item->id }}"
-                                            data-url="{{ route('cart-items.store') }}">
-                                        Add to Bag
-                                    </button>
+        @if($favorites->isEmpty())
+            <p>No favorites found.</p>
+        @else
+            @foreach ($favorites as $favorite)
+                @if ($favorite->item)
+                    <div class="py-6">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div class="bg-white shadow-sm sm:rounded-lg" style="background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <div class="p-6 text-gray-900" style="padding: 24px;">
+                                    <h3 class="text-lg font-semibold mb-2" style="font-size: 1.25rem; margin-bottom: 8px;">{{ $favorite->item->name }}</h3>
+                                    <div class="text-sm font-medium text-slate-700 mb-4" style="margin-bottom: 16px; color: #4a5568;">
+                                        Amount left: <!-- Add actual amount left here -->
+                                    </div>
+                                    <div class="flex justify-end space-x-2">
+                                        <!-- Unfavourite Button -->
+                                        <button class="unfavourite" style="background-color: #D97706; color: white; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s ease;"
+                                                data-favourite-id="{{ $favorite->id }}"
+                                                data-url="{{ route('favourites.remove', $favorite->id) }}">
+                                            Unfavourite
+                                        </button>
+                                        <!-- Add to Bag Button -->
+                                        <button class="add-to-cart" style="background-color: #1D4ED8; color: white; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s ease;"
+                                                data-item-id="{{ $favorite->item->id }}"
+                                                data-url="{{ route('cart-items.store') }}">
+                                            Add to Bag
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-        @endforeach
+                @else
+                    <p>Favorite item not found.</p>
+                @endif
+            @endforeach
+        @endif
     </div>
 
     <!-- JavaScript code for handling the button click -->
