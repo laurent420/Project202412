@@ -11,17 +11,17 @@ class FavoriteController extends Controller
     public function add(Request $request)
     {
         $userId = auth()->id(); // Get the current user's ID
-        $itemId = $request->input('item_id'); // Get the item ID from the request
+        $itemGroupId = $request->input('item_group_id'); // Get the item ID from the request
 
         // Check if the item is already favorited by the user
-        if (Favorite::where('user_id', $userId)->where('item_id', $itemId)->exists()) {
+        if (Favorite::where('user_id', $userId)->where('group_id', $itemGroupId)->exists()) {
             return response()->json(['message' => 'Item already favorited.'], 422);
         }
 
         // Create a new favorite record
         Favorite::create([
             'user_id' => $userId,
-            'item_id' => $itemId,
+            'item_group_id' => $itemGroupId,
         ]);
 
         return response()->json(['message' => 'Item added to favorites.']);
@@ -38,7 +38,7 @@ class FavoriteController extends Controller
         $userId = auth()->id(); // Get the current user's ID
 
         // Find the favorite record
-        $favorite = Favorite::where('user_id', $userId)->where('item_id', $id)->first();
+        $favorite = Favorite::where('item_group_id', $userId)->where('item_group_id', $id)->first();
 
         if ($favorite) {
             // If the favorite record exists, delete it

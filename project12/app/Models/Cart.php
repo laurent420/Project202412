@@ -1,20 +1,19 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ban extends Model
+class Cart extends Model
 {
     use HasFactory;
+    protected $fillable = ['item_group_id', 'user_id'];
 
-    protected $fillable = [
-        'user_id',
-        'is_banned',
-        'begin_ban',
-        'end_ban',
-        'description',
-    ];
+    public function itemGroup()
+    {
+        return $this->belongsTo(ItemGroup::class);
+    }
 
     public function user()
     {

@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CartItem;
+use App\Models\ItemGroup;
+use App\Models\Cart;
 
 class CartItemController extends Controller
 {
@@ -16,30 +18,53 @@ class CartItemController extends Controller
 
     public function store(Request $request)
     {
-        $userId = auth()->id();
-        $itemId = $request->input('item_id');
+        $groupId = $request->input('item_id');
+        $group = ItemGroup::find($groupId);
 
-        $cartItem = CartItem::where('user_id', $userId)->where('item_id', $itemId)->first();
+        if ($group && $group->quantity > 0) {
+            // Decrease the group's quantity
+            $group->quantity -= 1;
+            $group->save();
 
-        if ($cartItem) {
-            $cartItem->increment('quantity');
+            // Add item to the cart
+            $cart = new Cart();
+            $cart->item_group_id = $groupId;
+            $cart->save();
+
+            return response()->json(['success' => 'Item added to cart', 'quantity' => $group->quantity]);
         } else {
-            CartItem::create([
-                'user_id' => $userId,
-                'item_id' => $itemId,
-                'quantity' => 1,
-            ]);
+            return response()->json(['error' => 'Item is out of stock'], 400);
         }
-
-        return response()->json(['message' => 'Item added to bag']);
     }
 
-    public function destroy(CartItem $cartItem)
-    {
+    
+    
+public function destroy(Request $request, $itemId)
+{
+    $userId = auth()->id();
+    $cartItem = CartItem::where('user_id', $userId)->where('item_id', $itemId)->first();
+
+    if (!$cartItem) {
+        return response()->json(['message' => 'Item not found in cart'], 404);
+    }
+
+    $item = ItemGroup::find($itemId);
+
+    if ($cartItem->quantity > 1) {
+        $cartItem->decrement('quantity');
+        $item->increment('quantity');
+    } else {
+        $item->increment('quantity', $cartItem->quantity);
         $cartItem->delete();
-
-        return response()->json(['message' => 'Item removed from bag']);
     }
+
+    return response()->json(['message' => 'Item removed from cart']);
+}
+
+    
+    
+    
+
 }
 
 
