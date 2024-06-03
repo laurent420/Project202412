@@ -19,7 +19,7 @@
                         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900 dark:text-gray-100">
                                 <h3 class="text-lg font-semibold mb-2">{{ $group->brand }} {{ $group->name }}</h3>
-                                <img src="{{ asset($group->picture) }}" alt="{{ $group->name }}" class="w-full mb-2">
+                                <img src="{{ asset($group->picture) }}" alt="{{ $group->name }}" class="w-32 h-32 mb-2">
                             </div>
                         </div>
                     @endif
