@@ -124,9 +124,9 @@ class ItemController extends Controller
     {
         // Check if there's a search query
         $search = $request->input('search');
-
+    
         if ($search) {
-            // Search items by name or brand
+            // Search loaned items by name or brand
             $items = Item::where('name', 'LIKE', $search . '%')
                 ->orWhere('brand', 'LIKE', $search . '%')
                 ->get();
@@ -134,11 +134,11 @@ class ItemController extends Controller
             // Fetch all items if there's no search query
             $items = Item::all();
         }
-
-
+    
         // Pass the items to the view
         return view('LoanedItems', compact('items'));
     }
+    
 
 }
 

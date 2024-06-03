@@ -57,16 +57,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($loanedItems as $loanedItem)
-                                        <tr>
-                                            <td class="px-6 py-4 border-b border-gray-300 text-gray-800 dark:text-gray-100">
-                                                {{ $loanedItem->item->name }}</td>
-                                            <td class="px-6 py-4 border-b border-gray-300 text-gray-800 dark:text-gray-100">
-                                                {{ $loanedItem->start_date }}</td>
-                                            <td class="px-6 py-4 border-b border-gray-300 text-gray-800 dark:text-gray-100">
-                                                {{ $loanedItem->end_date }}</td>
-                                        </tr>
-                                    @endforeach
+                                @foreach($items as $loanedItem)
+    <tr>
+        <td class="px-6 py-4 border-b border-gray-300 text-gray-800 dark:text-gray-100">
+            {{ $loanedItem->name }}</td> <!-- Assuming 'name' is the column for item name -->
+        <td class="px-6 py-4 border-b border-gray-300 text-gray-800 dark:text-gray-100">
+            {{ $loanedItem->start_date }}</td>
+        <td class="px-6 py-4 border-b border-gray-300 text-gray-800 dark:text-gray-100">
+            {{ $loanedItem->end_date }}</td>
+    </tr>
+@endforeach
+
                                 </tbody>
                             </table>
                         @endif
