@@ -1,13 +1,14 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -26,15 +27,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return redirect()->route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -42,8 +44,8 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'password'],
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
         ]);
 
         $user = $request->user();
@@ -55,25 +57,26 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return Redirect::to('/');
     }
 
     /**
      * Show all users.
      */
+    public function showUsers(Request $request): View
+    {
+        $users = User::all();
 
-     public function showUsers(Request $request): View
-     {
-         $users = User::all();
-     
-         return view('Users', compact('users'));
-     }
-     
-     public function banUserOverlay(Request $request): View
-     {
-         $users = User::all();
-     
-         return view('modal', compact('users'));
-     }      
+        return view('Users', compact('users'));
+    }
 
+    /**
+     * Display ban user overlay.
+     */
+    public function banUserOverlay(Request $request): View
+    {
+        $users = User::all();
+
+        return view('modal', compact('users'));
+    }
 }

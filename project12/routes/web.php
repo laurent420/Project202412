@@ -13,15 +13,26 @@ use App\Http\Controllers\{
     CartController,
 };
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MyBagController;
+use App\Http\Controllers\FavouritesController;
+use App\Http\Controllers\UserController;
 
 // Authentication routes
 Route::get('/', function () {
     return view('auth/login');
 });
 
-// Dashboard route
-Route::get('/dashboard', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/my-bag', [MyBagController::class, 'index'])->name('my-bag');
+    Route::get('/favourites', [FavouritesController::class, 'index'])->name('favourites');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/info', function () {
+        return view('info');
+    })->name('info');
+});
 
+
+// Andere routes...
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard/{id}/remove', [ItemController::class, 'remove'])->name('dashboard.remove');
@@ -114,3 +125,29 @@ Route::post('/user-agreement', 'RegistrationController@handleUserAgreement')->na
 });
 
 require __DIR__.'/auth.php';
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+// Route voor het dashboard
+Route::get('/dashboard', [ItemController::class, 'index'])->name('dashboard');
+
+// Route voor het toevoegen van een item
+Route::get('/additem', function() {
+    return view('additem'); // Verwijs naar je additem view
+})->name('additem');
+
+// Route voor het opslaan van een nieuw item
+Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+
+// Route voor het tonen van item details
+Route::get('/items/{id}', [ItemController::class, 'show'])->name('item.show');
+
+// Route voor het toevoegen aan de winkelwagen
+Route::post('/cart-items', [ItemController::class, 'addToCart'])->name('cart-items.store');
+
+// Route voor het toevoegen aan favorieten
+Route::post('/favourites', [ItemController::class, 'addToFavorite'])->name('favourites.add');
+
+// Andere routes...
+
+Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');

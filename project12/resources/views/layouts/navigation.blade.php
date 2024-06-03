@@ -1,6 +1,4 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -15,30 +13,25 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Home') }}
+                        {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('LoanedItems')" :active="request()->routeIs('LoanedItems')">
-                        {{ __('Loaned Items') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
+                    <!-- Add your additional navigation links here -->
+                    <x-nav-link :href="route('my-bag')" :active="request()->routeIs('my-bag')">
                         {{ __('My Bag') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
-    {{ __('Favourites') }}
-</x-nav-link>
 
-                    <x-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
-                        {{ __('Info') }}
+                    <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+                        {{ __('Favourites') }}
                     </x-nav-link>
 
-                    @if (auth()->check() && auth()->user()->isAdmin())
-                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
-                            {{ __('Users') }}
-                        </x-nav-link>
-                    @endif
+                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-nav-link>
 
+                    <x-nav-link :href="route('info')" :active="request()->routeIs('info')">
+                        {{ __('Info') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -95,30 +88,27 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('LoanedItems')" :active="request()->routeIs('LoanedItems')">
-                {{ __('Loaned Items') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('MyCart')" :active="request()->routeIs('MyCart')">
+            <!-- Add your additional responsive navigation links here -->
+            <x-responsive-nav-link :href="route('my-bag')" :active="request()->routeIs('my-bag')">
                 {{ __('My Bag') }}
             </x-responsive-nav-link>
 
-            <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
-    {{ __('Favourites') }}
-</x-nav-link>
+            <x-responsive-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
+                {{ __('Favourites') }}
+            </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('Info')" :active="request()->routeIs('Info')">
+            <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                {{ __('Users') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('info')" :active="request()->routeIs('info')">
                 {{ __('Info') }}
             </x-responsive-nav-link>
-            @if (auth()->check() && auth()->user()->isAdmin())
-                        <x-nav-link :href="route('Users')" :active="request()->routeIs('Users')">
-                            {{ __('Users') }}
-                        </x-nav-link>
-            @endif
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div
+        class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
