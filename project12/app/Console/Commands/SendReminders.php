@@ -3,28 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Notifications\ReturnItemReminder;
+use Illuminate\Support\Facades\Notification;
+use App\User;
 
 class SendReminders extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:send-reminders';
+    protected $signature = 'send:reminders';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    protected $description = 'Send reminders to users about returning items';
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
-        //
+        // Retrieve the users who need to be notified
+        $users = User::where('return_date', '<=', now()->addDay())->get();
+
+        // Send the notification to each user
+        foreach ($users as $user) {
+            $user->notify(new ReturnItemReminder());
+        }
     }
 }

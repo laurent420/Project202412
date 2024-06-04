@@ -7,23 +7,21 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ReturnReminder extends Mailable
+class LoanReturnReminder extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $item;
+    public $loan;
 
-    public function __construct($item)
+    public function __construct($loan)
     {
-        $this->item = $item;
+        $this->loan = $loan;
     }
 
     public function build()
     {
-        return $this->view('emails.return_reminder')
-                    ->with([
-                        'itemName' => $this->item->name,
-                        'returnDate' => $this->item->return_date,
-                    ]);
+        return $this->view('emails.loanReturnReminder')
+                    ->subject('Return Product Reminder')
+                    ->with(['loan' => $this->loan]);
     }
 }
